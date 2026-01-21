@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= pageTitle %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <link rel="stylesheet" href="/stylesheets/form.css" />
-
-  </head>
+  <%- include('../partials/head.ejs'); %>
   <body>
     <%- include('../partials/nav.ejs'); %>
     <main class="page-container">
@@ -25,13 +18,18 @@
           </select>
         </div>
         <div class="field">
-          <label for="title">Job Title</label>
+          <%- include('../partials/textInput.ejs', {
+            fieldName: "title",
+            fieldLabel: "Title",
+            fieldValue: jobApp.title
+          }) %>
+          <!-- <label for="title">Job Title</label>
           <input
             type="text"
             name="title"
             id="title"
             value="<%= jobApp.title %>"
-          />
+          /> -->
         </div>
         <div class="field">
           <label for="status">Application Status</label>
@@ -59,19 +57,28 @@
             <option value="High" <%= (jobApp.priority==="High")?"selected":"" %>>High</option>
           </select>
         </div>
-
-        <div class="field">
+        <%- include('../partials/textInput.ejs', {
+          fieldName: "url",
+          fieldLabel: "Website",
+          fieldValue: jobApp.url
+        }) %>
+        <!-- <div class="field">
           <label for="url">Link</label>
           <input type="text" name="url" id="url" value="<%= jobApp.url %>"/>
-        </div>
+        </div> -->
         <div class="field">
           <label for="archived">Archived</label>
           <input type="checkbox" name="archived" id="archived" <%= (jobApp.archived===true)?"checked":"" %>/>
         </div>
-        <div class="field">
+        <%- include('../partials/textInput.ejs', {
+          fieldName: "appliedAt",
+          fieldLabel: "Applied At",
+          fieldValue: (jobApp.appliedAt).toISOString().slice(0,10)
+        }) %>
+        <!-- <div class="field">
           <label for="appliedAt">Application Date</label>
           <input type="date" name="appliedAt" id="appliedAt" value="<%= (jobApp.appliedAt).toISOString().slice(0,10)%>"/>
-        </div>
+        </div> -->
         <div class="actions">
           <button type="submit">Save Application</button>
         </div>
