@@ -91,10 +91,12 @@
           fieldValue: jobApp.url
         }) %>
 
-        <div class="field">
-          <label for="archived">Archived</label>
-          <input type="checkbox" name="archived" id="archived" <%= (jobApp.archived===true)?"checked":"" %>/>
-        </div>
+        <%- include('../partials/checkboxInput.ejs', {
+          fieldName: "archived",
+          fieldLabel: "Archived",
+          checked: jobApp.archived
+        }) %>
+
         <%- include('../partials/textInput.ejs', {
           fieldName: "appliedAt",
           fieldLabel: "Applied At",
