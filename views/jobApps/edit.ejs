@@ -6,66 +6,91 @@
     <main class="page-container">
       <%- include('../partials/pageHeader.ejs'); %>
       <form class="crud-form" action="/jobApps/<%=jobApp._id%>?_method=PUT" method="POST">
-        <div class="field">
-          <label for="company">Company</label>
-          <select name="company" id="company">
-            <% for(let i = 0; i < companies.length; i ++){ %>
-              <option
-                value="<%= companies[i]._id %>" 
-                <%= (String(jobApp.company._id)==String(companies[i]._id))?"selected":"" %>
-              ><%= companies[i].name %></option>
-            <% } %>
-          </select>
-        </div>
-        <div class="field">
-          <%- include('../partials/textInput.ejs', {
-            fieldName: "title",
-            fieldLabel: "Title",
-            fieldValue: jobApp.title
-          }) %>
-          <!-- <label for="title">Job Title</label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            value="<%= jobApp.title %>"
-          /> -->
-        </div>
-        <div class="field">
-          <label for="status">Application Status</label>
-          <select name="status" id="status">
-            <option value="Applied" <%= (jobApp.status==="Applied")?"selected":"" %>>Applied</option>
-            <option value="Interviewing" <%= (jobApp.status==="Interviewing")?"selected":"" %>>Interviewing</option>
-            <option value="Offer" <%= (jobApp.status==="Offer")?"selected":"" %>>Offer</option>
-            <option value="Rejected" <%= (jobApp.status==="Rejected")?"selected":"" %>>Rejected</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="source">Application Source</label>
-          <select name="source" id="source">
-            <option value="LinkedIn" <%= (jobApp.source==="LinkedIn")?"selected":"" %>>LinkedIn</option>
-            <option value="Indeed" <%= (jobApp.source==="Indeed")?"selected":"" %>>Indeed</option>
-            <option value="Company Site" <%= (jobApp.source==="Company Site")?"selected":"" %>>Company Site</option>
-            <option value="Networking" <%= (jobApp.source==="Networking")?"selected":"" %>>Networking</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="priority">Application Priority</label>
-          <select name="priority" id="priority">
-            <option value="Low" <%= (jobApp.priority==="Low")?"selected":"" %>>Low</option>
-            <option value="Medium" <%= (jobApp.priority==="Medium")?"selected":"" %>>Medium</option>
-            <option value="High" <%= (jobApp.priority==="High")?"selected":"" %>>High</option>
-          </select>
-        </div>
+        <%- include('../partials/selectInput', {
+          fieldName: "company",
+          fieldLabel: "Company",
+          fieldValue: String(jobApp.company._id),
+          fieldOptions: companies.map(company=>{return {value: String(company._id), label: company.name}})
+        })%>
+        <%- include('../partials/textInput.ejs', {
+          fieldName: "title",
+          fieldLabel: "Title",
+          fieldValue: jobApp.title
+        }) %>
+        <%- include('../partials/selectInput', {
+          fieldName: "status",
+          fieldLabel: "Application Status",
+          fieldValue: jobApp.status,
+          fieldOptions: [
+            {
+              value: "Applied",
+              label: "Applied"
+            },
+            {
+              value: "Interviewing",
+              label: "Interviewing"
+            },
+            {
+              value: "Offer",
+              label: "Offer"
+            },
+            {
+              value: "Rejected",
+              label: "Rejected"
+            }
+          ]
+        })%>
+
+        <%- include('../partials/selectInput', {
+          fieldName: "source",
+          fieldLabel: "Application Source",
+          fieldValue: jobApp.source,
+          fieldOptions: [
+            {
+              value: "LinkedIn",
+              label: "LinkedIn"
+            },
+            {
+              value: "Indeed",
+              label: "Indeed"
+            },
+            {
+              value: "Company Site",
+              label: "Company Site"
+            },
+            {
+              value: "Networking",
+              label: "Networking"
+            }
+          ]
+        })%>
+  
+        <%- include('../partials/selectInput', {
+          fieldName: "priority",
+          fieldLabel: "Application Priority",
+          fieldValue: jobApp.priority,
+          fieldOptions: [
+            {
+              value: "Low",
+              label: "Low"
+            },
+            {
+              value: "Medium",
+              label: "Medium"
+            },
+            {
+              value: "High",
+              label: "High"
+            }
+          ]
+        })%>
+
         <%- include('../partials/textInput.ejs', {
           fieldName: "url",
-          fieldLabel: "Website",
+          fieldLabel: "Link",
           fieldValue: jobApp.url
         }) %>
-        <!-- <div class="field">
-          <label for="url">Link</label>
-          <input type="text" name="url" id="url" value="<%= jobApp.url %>"/>
-        </div> -->
+
         <div class="field">
           <label for="archived">Archived</label>
           <input type="checkbox" name="archived" id="archived" <%= (jobApp.archived===true)?"checked":"" %>/>
@@ -75,10 +100,7 @@
           fieldLabel: "Applied At",
           fieldValue: (jobApp.appliedAt).toISOString().slice(0,10)
         }) %>
-        <!-- <div class="field">
-          <label for="appliedAt">Application Date</label>
-          <input type="date" name="appliedAt" id="appliedAt" value="<%= (jobApp.appliedAt).toISOString().slice(0,10)%>"/>
-        </div> -->
+
         <div class="actions">
           <button type="submit">Save Application</button>
         </div>
