@@ -2,6 +2,7 @@ const User = require("../models/user.js");
 const JobApp = require("../models/jobApp.js");
 const Company = require("../models/company.js");
 
+// GET "/jobApps/"
 const renderIndex = async (req, res) => {
   const jobApps = await JobApp.find({
     user: req.session.user._id,
@@ -14,6 +15,7 @@ const renderIndex = async (req, res) => {
   });
 };
 
+// GET "/jobApps/new"
 const renderNewAppForm = async (req, res) => {
   const companies = await Company.find({
     user: req.session.user._id,
@@ -24,6 +26,7 @@ const renderNewAppForm = async (req, res) => {
   });
 };
 
+// GET "/jobApps/:id"
 const renderShowAppPage = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
@@ -31,13 +34,13 @@ const renderShowAppPage = async (req, res) => {
   });
   await jobApp.populate("company");
   console.log(jobApp);
-  //   console.log(jobApp);
   res.render("./jobApps/show.ejs", {
     pageTitle: `View Job App`,
     jobApp,
   });
 };
 
+// GET "/jobApps/:id/edit"
 const renderEditAppForm = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
@@ -48,7 +51,6 @@ const renderEditAppForm = async (req, res) => {
     user: req.session.user._id,
   });
 
-  //   console.log(jobApp);
   res.render("./jobApps/edit.ejs", {
     pageTitle: "Edit Job App",
     jobApp,
@@ -56,6 +58,7 @@ const renderEditAppForm = async (req, res) => {
   });
 };
 
+// POST "/jobApps/"
 const createApp = async (req, res) => {
   //   console.log(req.body);
   req.body.archived = req.body.archived === "on" ? true : false;
@@ -72,6 +75,7 @@ const createApp = async (req, res) => {
   res.redirect("/jobApps");
 };
 
+// DELETE "/jobApps/:id"
 const deleteApp = async (req, res) => {
   const jobApp = await JobApp.findOneAndDelete({
     _id: req.params.id,
@@ -80,6 +84,7 @@ const deleteApp = async (req, res) => {
   res.redirect("/jobApps");
 };
 
+// PUT "/jobApps/:id"
 const updateApp = async (req, res) => {
   console.log(req.body);
   req.body.archived = req.body.archived === "on" ? true : false;

@@ -2,6 +2,7 @@ const User = require("../models/user.js");
 const Company = require("../models/company.js");
 const JobApp = require("../models/jobApp.js");
 
+// GET "/companies/"
 const renderIndex = async (req, res) => {
   const companies = await Company.find({
     user: req.session.user._id,
@@ -9,12 +10,14 @@ const renderIndex = async (req, res) => {
   res.render("companies/index.ejs", { companies, pageTitle: "Companies" });
 };
 
+// GET "/companies/new"
 const renderNewCompanyForm = (req, res) => {
   res.render("companies/new.ejs", {
     pageTitle: "New Company",
   });
 };
 
+// GET "/companies/:id"
 const renderShowCompanyPage = async (req, res) => {
   const company = await Company.findOne({
     user: req.session.user._id,
@@ -30,6 +33,7 @@ const renderShowCompanyPage = async (req, res) => {
   });
 };
 
+// GET "/companies/:id/edit"
 const renderEditCompanyForm = async (req, res) => {
   const company = await Company.findOne({
     user: req.session.user._id,
@@ -41,12 +45,22 @@ const renderEditCompanyForm = async (req, res) => {
   });
 };
 
+// POST "/companies/:id"
 const createCompany = async (req, res) => {
-  req.body.user = req.session.user._id;
-  await Company.create(req.body);
-  res.redirect("/companies");
+  const companyInDatabase = await Company.findOne({
+    user: req.session.user._id,
+    name: req.body.name,
+  });
+  if (companyInDatabase) {
+    res.send(`Company ${req.body.name} already in database!`);
+  } else {
+    req.body.user = req.session.user._id;
+    await Company.create(req.body);
+    res.redirect("/companies");
+  }
 };
 
+// DELETE "/companies/:id"
 const deleteCompany = async (req, res) => {
   await Company.findOneAndDelete({
     user: req.session.user._id,
@@ -55,15 +69,24 @@ const deleteCompany = async (req, res) => {
   res.redirect("/companies");
 };
 
+// PUT "/companies/:id"
 const updateCompany = async (req, res) => {
-  const company = await Company.findOneAndUpdate(
-    {
-      user: req.session.user._id,
-      _id: req.params.id,
-    },
-    req.body,
-  );
-  res.redirect("/companies");
+  const companyInDatabase = await Company.findOne({
+    user: req.session.user._id,
+    name: req.body.name,
+  });
+  if (companyInDatabase) {
+    res.send(`Company ${req.body.name} already in database!`);
+  } else {
+    const company = await Company.findOneAndUpdate(
+      {
+        user: req.session.user._id,
+        _id: req.params.id,
+      },
+      req.body,
+    );
+    res.redirect("/companies");
+  }
 };
 
 module.exports = {
