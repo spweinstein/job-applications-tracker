@@ -10,44 +10,13 @@
       <a class="btn btn-primary btn-lg" href="/jobApps/new">+ ADD JOB APPLICATION</a>
 
       <% if(jobApps.length>0){ %>
-        <div class="table-container">
-          <div class="table-header">
-            <div>Job Title</div>
-            <div>Company</div>
-            <div>Status</div>
-            <div>Priority</div>
-            <div>Actions</div>
-          </div>
+        <%- include('../components/tables/table.ejs', {
+          columnNames: ["Job Title", "Company", "Status", "Priority"],
+          columnPaths: ["title", "company.name", "status", "priority"],
+          resourceName: "jobApps",
+          rows: jobApps
+        })%>
 
-          <div class="table-body">
-            <% jobApps.forEach(app => { %>
-              <%- include('../components/tables/tableRow.ejs', {
-                row: app,
-                columns: ["title", "company.name", "status", "priority"],
-                resourceName: "jobApps",
-                recordId: app._id
-              }) %>
-            <% }); %>
-          </div>
-          
-          <!-- <div class="table-body">
-            <% jobApps.forEach(app => { %>
-            <div class="table-row">
-              <div><%= app.title %></div>
-              <div><%= app.company?.name %></div>
-              <div><span class="status status-<%= app.status.toLowerCase()%>"><%= app.status %></span></div>
-              <div><span class="priority priority-<%= app.priority.toLowerCase()%>"><%= app.priority %></span></div>
-              <div class="actions">
-                <a href="/jobApps/<%=app._id%>" class="btn btn-warning btn-sm">View</a>
-                <a href="/jobApps/<%=app._id%>/edit" class="btn btn-primary btn-sm">Edit</a>
-                <form action="/jobApps/<%=app._id%>?_method=DELETE" method="POST">
-                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-              </div>
-            </div>
-            <% }); %>
-          </div> -->
-        </div>
       <% } else { %>
         <p>No applications yet!</p>
       <% } %>

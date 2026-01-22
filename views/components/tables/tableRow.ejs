@@ -21,10 +21,10 @@
         </div>
     <% } %>
     <div class="actions">
-    <% if(resourceName && recordId){%>
-        <a href="/<%=resourceName %>/<%=recordId%>" class="btn btn-warning btn-sm">View</a>
-        <a href="/<%=resourceName %>/<%=recordId%>/edit" class="btn btn-primary btn-sm">Edit</a>
-        <form action="/<%=resourceName %>/<%=recordId%>?_method=DELETE" method="POST">
+    <% if(resourceName){%>
+        <a href="/<%=resourceName %>/<%=row._id%>" class="btn btn-warning btn-sm">View</a>
+        <a href="/<%=resourceName %>/<%=row._id%>/edit" class="btn btn-primary btn-sm">Edit</a>
+        <form action="/<%=resourceName %>/<%=row._id%>?_method=DELETE" method="POST">
             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
         </form>
     <%}%>

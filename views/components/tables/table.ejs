@@ -1,0 +1,18 @@
+
+<!-- expects: columnNames, columnPaths, rows, resourceName -->
+<div class="table-container">
+    <div class="table-header">
+        <% for(let i = 0; i < columnNames.length; i ++){ %>
+            <div><%= columnNames[i]%></div>
+        <% } %>
+        <div>Actions</div>
+    </div>
+    <% rows.forEach(row=>{ %>
+        <%- include('tableRow.ejs', {
+            row,
+            columns: columnPaths,
+            resourceName,
+        })%>
+    <%})%>
+
+</div>
