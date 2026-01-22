@@ -75,8 +75,8 @@ const updateCompany = async (req, res) => {
     user: req.session.user._id,
     name: req.body.name,
   });
-  if (companyInDatabase) {
-    res.send(`Company ${req.body.name} already in database!`);
+  if (!companyInDatabase) {
+    res.send(`Company ${req.body.name} not in database!`);
   } else {
     const company = await Company.findOneAndUpdate(
       {

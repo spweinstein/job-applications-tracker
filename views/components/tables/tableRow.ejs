@@ -1,0 +1,32 @@
+<!-- Expects two locals:
+// row: the object for that row (jobApp/company/etc)
+// columns: an array describing how to render each cell
+// resourceName
+// recordId
+-->
+<% function getPath(path, obj){
+    const arr = path.split(".");
+    let val=obj;
+    while(arr.length>0){
+        const key = arr.splice(0, 1);
+        val = val[key]
+    }
+    return val;
+}%>
+
+<div class="table-row">
+    <% for(const col of columns){ %>
+        <div>
+            <%= getPath(col, row) %>
+        </div>
+    <% } %>
+    <div class="actions">
+    <% if(resourceName && recordId){%>
+        <a href="/<%=resourceName %>/<%=recordId%>" class="btn btn-warning btn-sm">View</a>
+        <a href="/<%=resourceName %>/<%=recordId%>/edit" class="btn btn-primary btn-sm">Edit</a>
+        <form action="/<%=resourceName %>/<%=recordId%>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+    <%}%>
+    </div>
+</div>

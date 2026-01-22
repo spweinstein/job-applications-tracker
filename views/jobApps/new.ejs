@@ -9,18 +9,18 @@
       <%- include('../partials/pageHeader.ejs'); %>
 
       <form class="crud-form" action="/jobApps" method="POST">
-        <%- include('../partials/selectInput', {
+        <%- include('../components/forms/selectInput.ejs', {
           fieldName: "company",
           fieldLabel: "Company",
           fieldValue: companies.length?String(companies[0]._id):"",
           fieldOptions: companies.map(company=>{return {value: String(company._id), label: company.name}})
         })%>
-        <%- include('../partials/textInput.ejs', {
+        <%- include('../components/forms/textInput.ejs', {
           fieldName: "title",
           fieldLabel: "Title",
           fieldValue: ""
         }) %>
-        <%- include('../partials/selectInput', {
+        <%- include('../components/forms/selectInput.ejs', {
           fieldName: "status",
           fieldLabel: "Application Status",
           fieldValue: "Applied",
@@ -44,7 +44,7 @@
           ]
         })%>
 
-        <%- include('../partials/selectInput', {
+        <%- include('../components/forms/selectInput.ejs', {
           fieldName: "source",
           fieldLabel: "Application Source",
           fieldValue: "LinkedIn",
@@ -68,7 +68,7 @@
           ]
         })%>
   
-        <%- include('../partials/selectInput', {
+        <%- include('../components/forms/selectInput.ejs', {
           fieldName: "priority",
           fieldLabel: "Application Priority",
           fieldValue: "Low",
@@ -88,7 +88,7 @@
           ]
         })%>
 
-        <%- include('../partials/textInput.ejs', {
+        <%- include('../components/forms/textInput.ejs', {
           fieldName: "url",
           fieldLabel: "Link",
           fieldValue: ""
@@ -100,7 +100,7 @@
           checked: false
         }) %>
 
-        <%- include('../partials/textInput.ejs', {
+        <%- include('../components/forms/textInput.ejs', {
           fieldName: "appliedAt",
           fieldLabel: "Applied At",
           fieldValue: new Date().toISOString().slice(0,10)

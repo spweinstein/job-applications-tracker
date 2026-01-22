@@ -18,8 +18,19 @@
             <div>Priority</div>
             <div>Actions</div>
           </div>
-          
+
           <div class="table-body">
+            <% jobApps.forEach(app => { %>
+              <%- include('../components/tables/tableRow.ejs', {
+                row: app,
+                columns: ["title", "company.name", "status", "priority"],
+                resourceName: "jobApps",
+                recordId: app._id
+              }) %>
+            <% }); %>
+          </div>
+          
+          <!-- <div class="table-body">
             <% jobApps.forEach(app => { %>
             <div class="table-row">
               <div><%= app.title %></div>
@@ -35,7 +46,7 @@
               </div>
             </div>
             <% }); %>
-          </div>
+          </div> -->
         </div>
       <% } else { %>
         <p>No applications yet!</p>

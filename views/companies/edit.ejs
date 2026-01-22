@@ -12,37 +12,30 @@
         action="/companies/<%=company._id%>?_method=PUT"
         method="POST"
       >
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" value="<%=company.name%>" />
-        </div>
-        <div class="field">
-          <label for="website">Website</label>
-          <input
-            type="text"
-            name="website"
-            id="website"
-            value="<%=company.website%>"
-          />
-        </div>
-        <div class="field">
-          <label for="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            value="<%=company.description%>"
-          />
-        </div>
-        <div class="field">
-          <label for="notes">Notes</label>
-          <input
-            type="text"
-            name="notes"
-            id="notes"
-            value="<%=company.notes%>"
-          />
-        </div>
+       <%- include('../components/forms/textInput.ejs', {
+          fieldName: "name",
+          fieldLabel: "Name",
+          fieldValue: company.name
+        }) %>
+
+       <%- include('../components/forms/textInput.ejs', {
+          fieldName: "website",
+          fieldLabel: "Website",
+          fieldValue: company.website
+        }) %>
+
+       <%- include('../components/forms/textInput.ejs', {
+          fieldName: "description",
+          fieldLabel: "Description",
+          fieldValue: company.description
+        }) %>
+
+       <%- include('../components/forms/textInput.ejs', {
+          fieldName: "notes",
+          fieldLabel: "Notes",
+          fieldValue: company.notes
+        }) %>
+
         <div class="actions">
           <button type="submit">Save Company</button>
         </div>
