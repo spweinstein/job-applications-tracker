@@ -34,13 +34,15 @@
 
                 <%- include('./experiencePartial.ejs', {companies, resume}); %>
                 <%- include('./educationPartial.ejs', {resume}); %>
+                <%- include('./projectsPartial.ejs', {resume}); %>
+                <%- include('./certificationsPartial.ejs', {resume}); %>
 
 
                 <%-include('repeatableFieldGroup.ejs') %>
 
 
                 <div class="actions">
-                    <button type="submit">Save Application</button>
+                    <button type="submit">Save Resume</button>
                 </div>
             </form>
         </main>

@@ -1,6 +1,7 @@
 // const User = require("../models/user.js");
 const JobApp = require("../models/jobApp.js");
 const Company = require("../models/company.js");
+const Resume = require("../models/resume.js");
 
 // GET "/jobApps/"
 const renderIndex = async (req, res) => {
@@ -21,9 +22,13 @@ const renderNewAppForm = async (req, res) => {
   const companies = await Company.find({
     user: req.session.user._id,
   });
+  const resumes = await Resume.find({
+    user: req.session.user._id,
+  });
   res.render("./jobApps/new.ejs", {
     pageTitle: "New Job Application",
     companies,
+    resumes,
   });
 };
 
@@ -46,16 +51,23 @@ const renderEditAppForm = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
     user: req.session.user._id,
-  });
-  await jobApp.populate("company");
+  })
+    .populate("company")
+    .populate("resume");
   const companies = await Company.find({
     user: req.session.user._id,
   });
+  const resumes = await Resume.find({
+    user: req.session.user._id,
+  });
+
+  console.log(jobApp);
 
   res.render("./jobApps/edit.ejs", {
     pageTitle: "Edit Job App",
     jobApp,
     companies,
+    resumes,
   });
 };
 

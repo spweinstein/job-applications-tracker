@@ -13,6 +13,11 @@ const jobAppSchema = new mongoose.Schema(
       ref: "Company",
       required: true,
     },
+    resume: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Resume",
+      required: true,
+    },
     title: String,
     status: {
       type: String,

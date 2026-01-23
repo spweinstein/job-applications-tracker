@@ -54,6 +54,7 @@
     function reindexBlocks() {
       const blocks = list.querySelectorAll(`.${blockClass}`);
       const groupRegex = new RegExp(`${groupName}\\[\\d+\\]`);
+      const isOptional = container.dataset.optional === "true";
 
       blocks.forEach((block, newIndex) => {
         block.dataset.index = newIndex;
@@ -65,21 +66,25 @@
       blocks.forEach((block) => {
         const removeBtn = block.querySelector(`.${removeClass}`);
         if (removeBtn) {
+          // If optional, always show remove button
+          // If required, show when more than one block exists
           removeBtn.style.display =
-            blocks.length === 1 ? "none" : "inline-block";
+            isOptional || blocks.length > 1 ? "inline-block" : "none";
         }
       });
     }
 
     addBtn.addEventListener("click", () => {
+      console.log("adding click listener...");
       addBlock();
       reindexBlocks();
     });
 
     // Check if blocks already exist (edit mode)
     const existingBlocks = list.querySelectorAll(`.${blockClass}`);
+    const isOptional = container.dataset.optional === "true";
 
-    if (existingBlocks.length === 0) {
+    if (existingBlocks.length === 0 && !isOptional) {
       // New mode: add one empty block
       addBlock();
     }
@@ -90,76 +95,4 @@
 
   // Auto-initialize all repeatable groups on the page
   document.querySelectorAll("[data-group]").forEach(initRepeatableGroup);
-
-  //   const experienceList = document.querySelector("#experience-list");
-  //   const addBtn = document.querySelector("#add-experience");
-  //   const template = document.querySelector("#experience-template");
-
-  //   function getNextIndex() {
-  //     const blocks = experienceList.querySelectorAll(".experience-block");
-  //     return blocks.length; // simple: next index is count
-  //   }
-
-  //   function addExperienceBlock() {
-  //     const nextIndex = getNextIndex();
-
-  //     // clone template content (DocumentFragment)
-  //     const fragment = template.content.cloneNode(true);
-
-  //     // update names: replace "__INDEX__" with the number
-  //     fragment.querySelectorAll("[name]").forEach((el) => {
-  //       el.name = el.name.replaceAll("__INDEX__", nextIndex);
-  //     });
-
-  //     // set data-index too (optional but useful)
-  //     const block = fragment.querySelector(".experience-block");
-  //     block.dataset.index = nextIndex;
-
-  //     experienceList.appendChild(fragment);
-  //   }
-
-  //   // Event delegation so it works for dynamically added buttons
-  //   experienceList.addEventListener("click", (e) => {
-  //     if (e.target.classList.contains("remove-experience")) {
-  //       const block = e.target.closest(".experience-block");
-  //       block.remove();
-
-  //       // Optional: re-index after removing so the array indexes are contiguous
-  //       reindexExperienceBlocks();
-  //     }
-  //   });
-
-  //   function reindexExperienceBlocks() {
-  //     const blocks = experienceList.querySelectorAll(".experience-block");
-
-  //     blocks.forEach((block, newIndex) => {
-  //       block.dataset.index = newIndex;
-
-  //       block.querySelectorAll("[name]").forEach((el) => {
-  //         // Replace the old index inside experience[OLD] with experience[NEW]
-  //         el.name = el.name.replace(
-  //           /experience\[\d+\]/,
-  //           `experience[${newIndex}]`,
-  //         );
-  //       });
-  //     });
-
-  //     // If only one block remains, hide its remove button (nice UX)
-  //     blocks.forEach((block, i) => {
-  //       const removeBtn = block.querySelector(".remove-experience");
-  //       if (!removeBtn) return;
-  //       removeBtn.style.display = blocks.length === 1 ? "none" : "inline-block";
-  //     });
-  //   }
-
-  //   addBtn.addEventListener("click", () => {
-  //     addExperienceBlock();
-  //     reindexExperienceBlocks(); // ensures remove button visibility logic stays right
-  //   });
-
-  //   // Add first experience block
-  //   addExperienceBlock();
-
-  //   // Initialize remove button visibility for initial load
-  //   reindexExperienceBlocks();
 </script>

@@ -100,6 +100,7 @@ const resumeSchema = new mongoose.Schema({
   education: [educationSchema],
   projects: [projectSchema],
   certifications: [certificationSchema],
+  skills: [String],
 });
 
 module.exports = mongoose.model("Resume", resumeSchema);
