@@ -71,22 +71,26 @@ const deleteCompany = async (req, res) => {
 
 // PUT "/companies/:id"
 const updateCompany = async (req, res) => {
-  const companyInDatabase = await Company.findOne({
+  // Check if another company with this name exists (excluding current company)
+  const duplicateCompany = await Company.findOne({
     user: req.session.user._id,
     name: req.body.name,
+    _id: { $ne: req.params.id }, // Exclude the current company being updated
   });
-  if (!companyInDatabase) {
-    res.send(`Company ${req.body.name} not in database!`);
-  } else {
-    const company = await Company.findOneAndUpdate(
-      {
-        user: req.session.user._id,
-        _id: req.params.id,
-      },
-      req.body,
-    );
-    res.redirect("/companies");
+
+  if (duplicateCompany) {
+    // Could use flash messages, or for now, send error
+    return res.send(`A company named "${req.body.name}" already exists!`);
   }
+
+  await Company.findOneAndUpdate(
+    {
+      user: req.session.user._id,
+      _id: req.params.id,
+    },
+    req.body,
+  );
+  res.redirect("/companies");
 };
 
 module.exports = {

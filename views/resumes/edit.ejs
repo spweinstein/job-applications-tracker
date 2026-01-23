@@ -29,7 +29,7 @@
 
                 <div class="field">
                     <label for="summary">Objective Statement</label>
-                    <textarea name="summary" id="summary"></textarea>
+                    <textarea name="summary" id="summary"><%= resume.summary %></textarea>
                 </div>
 
                 <%- include('./experiencePartial.ejs', {companies, resume}); %>

@@ -97,16 +97,10 @@
           fieldValue: jobApp.url
         }) %>
 
-        <%- include('../components/forms/checkboxInput.ejs', {
-          fieldName: "archived",
-          fieldLabel: "Archived",
-          checked: jobApp.archived
-        }) %>
-
-        <%- include('../components/forms/textInput.ejs', {
+        <%- include('../components/forms/dateInput.ejs', {
           fieldName: "appliedAt",
           fieldLabel: "Applied At",
-          fieldValue: (jobApp.appliedAt).toISOString().slice(0,10)
+          fieldValue: new Date().toISOString().slice(0,10)
         }) %>
 
         <div class="actions">

@@ -100,13 +100,7 @@
           fieldValue: ""
         }) %>
 
-        <%- include('../components/forms/checkboxInput.ejs', {
-          fieldName: "archived",
-          fieldLabel: "Archived",
-          checked: false
-        }) %>
-
-        <%- include('../components/forms/textInput.ejs', {
+        <%- include('../components/forms/dateInput.ejs', {
           fieldName: "appliedAt",
           fieldLabel: "Applied At",
           fieldValue: new Date().toISOString().slice(0,10)

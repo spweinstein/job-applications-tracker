@@ -86,7 +86,10 @@ const showResume = async (req, res) => {
   const resume = await Resume.findOne({
     user: req.session.user._id,
     _id: req.params.id,
-  });
+  })
+    .populate("experience.company")
+    .populate("projects.company")
+    .populate("certifications.company");
   res.render("resumes/show.ejs", {
     resume,
     pageTitle: "Resume Details",

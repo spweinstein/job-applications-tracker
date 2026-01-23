@@ -37,8 +37,9 @@ const renderShowAppPage = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
     user: req.session.user._id,
-  });
-  await jobApp.populate("company");
+  })
+    .populate("company")
+    .populate("resume");
   console.log(jobApp);
   res.render("./jobApps/show.ejs", {
     pageTitle: `View Job App`,
