@@ -2,8 +2,16 @@
 <!-- expects: columnNames, columnPaths, rows, resourceName -->
 <div class="table-container" style="--table-data-cols:  <%=columnNames.length%>">
     <div class="table-header" >
-        <% for(let i = 0; i < columnNames.length; i ++){ %>
-            <div><%= columnNames[i]%></div>
+        <% for(let i = 0; i < columnNames.length; i++) { %>
+        <div>
+            <a href="?sortBy=<%= columnPaths[i] %>&sortOrder=<%= sort?.sortBy === columnPaths[i] && sort?.sortOrder === 'asc' ? 'desc' : 'asc' %>&page=1" 
+            class="sort-header <%= sort?.sortBy === columnPaths[i] ? 'active' : '' %>">
+            <%= columnNames[i] %>
+            <% if (sort?.sortBy === columnPaths[i]) { %>
+                <span class="sort-icon"><%= sort.sortOrder === 'asc' ? '▲' : '▼' %></span>
+            <% } %>
+            </a>
+        </div>
         <% } %>
         <div>Actions</div>
     </div>

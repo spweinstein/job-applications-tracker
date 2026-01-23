@@ -75,32 +75,35 @@ const certificationSchema = new mongoose.Schema({
   description: String,
 });
 
-const resumeSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    index: true,
+const resumeSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
+    name: {
+      type: String,
+      required: true,
+    },
+
+    link: {
+      type: String,
+    },
+
+    summary: String,
+
+    notes: String,
+
+    experience: [experienceSchema],
+    education: [educationSchema],
+    projects: [projectSchema],
+    certifications: [certificationSchema],
+    skills: [String],
   },
-
-  name: {
-    type: String,
-    required: true,
-  },
-
-  link: {
-    type: String,
-  },
-
-  summary: String,
-
-  notes: String,
-
-  experience: [experienceSchema],
-  education: [educationSchema],
-  projects: [projectSchema],
-  certifications: [certificationSchema],
-  skills: [String],
-});
+  { timestamps: true },
+);
 
 module.exports = mongoose.model("Resume", resumeSchema);

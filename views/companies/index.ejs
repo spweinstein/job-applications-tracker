@@ -9,8 +9,8 @@
       <a class="btn btn-primary btn-lg" href="/companies/new">+ ADD COMPANY</a>
 
       <%- include('../components/tables/table.ejs', {
-        columnNames: ["Company", "Website", "Description", "Notes"],
-        columnPaths: ["name", "website", "description", "notes"],
+        columnNames: ["Company", "Description", "Notes"],
+        columnPaths: ["name", "description", "notes"],
         resourceName: "companies",
         rows: companies
       })%>

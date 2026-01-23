@@ -1,20 +1,25 @@
 const mongoose = require("mongoose");
 
-const companySchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-    index: true,
+const companySchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+      index: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    website: String,
+    description: String,
+    notes: String,
   },
-  name: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
   },
-  website: String,
-  description: String,
-  notes: String,
-});
+);
 
 // Enforce uniqueness on the pair user, name (user model, company name pair must be unique)
 companySchema.index({ user: 1, name: 1 }, { unique: true });

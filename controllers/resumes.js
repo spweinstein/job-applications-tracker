@@ -2,14 +2,35 @@ const Resume = require("../models/resume.js");
 const Company = require("../models/company.js");
 
 const renderIndex = async (req, res) => {
-  const resumes = await Resume.find({
-    user: req.session.user._id,
-  });
-  console.log(resumes);
-  //   await Resume.populate(resumes, { path: "user" });
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const sortBy = req.query.sortBy || "appliedAt";
+  const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
+
+  const skip = (page - 1) * limit;
+
+  const filter = { user: req.session.user._id };
+
+  const [resumes, totalCount] = await Promise.all([
+    Resume.find(filter)
+      .sort({ [sortBy]: sortOrder })
+      .skip(skip)
+      .limit(limit),
+    Resume.countDocuments(filter),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
+
   res.render("./resumes/index.ejs", {
     pageTitle: "Resumes",
     resumes,
+    pagination: {
+      currentPage: page,
+      totalPages,
+      totalCount,
+      limit,
+    },
+    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
