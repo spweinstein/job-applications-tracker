@@ -4,12 +4,28 @@
     <div class="table-header" >
         <% for(let i = 0; i < columnNames.length; i++) { %>
         <div>
-            <a href="?sortBy=<%= columnPaths[i] %>&sortOrder=<%= sort?.sortBy === columnPaths[i] && sort?.sortOrder === 'asc' ? 'desc' : 'asc' %>&page=1" 
-            class="sort-header <%= sort?.sortBy === columnPaths[i] ? 'active' : '' %>">
-            <%= columnNames[i] %>
-            <% if (sort?.sortBy === columnPaths[i]) { %>
-                <span class="sort-icon"><%= sort.sortOrder === 'asc' ? '▲' : '▼' %></span>
-            <% } %>
+            <% 
+                let urlParams = {
+                    // Sort by the column at this index in the iteration
+                    sortBy: columnPaths[i],
+                    // Sort order: descending if we're already sorting by this column and click it again
+                    // Otherwise, ascending
+                    sortOrder: (sort.sortBy === columnPaths[i] && sort.sortOrder === 'asc') ? 'desc' : 'asc',
+                    // Keep the page and page limit where they are
+                    page: pagination.currentPage,
+                    limit: pagination.limit
+                };
+                const href = "?"+Object.entries(urlParams).map(param=>param.join("=")).join("&");
+            %>
+            <a 
+                href="<%=href%>" 
+                class="sort-header"
+                <%= sort.sortBy === columnPaths[i] ? 'active' : '' %>
+            >
+                <%= columnNames[i] %>
+                <% if (sort?.sortBy === columnPaths[i]) { %>
+                    <span class="sort-icon"><%= sort.sortOrder === 'asc' ? '▲' : '▼' %></span>
+                <% } %>
             </a>
         </div>
         <% } %>
@@ -18,9 +34,11 @@
     <% rows.forEach(row=>{ %>
         <%- include('tableRow.ejs', {
             row,
-            columns: columnPaths,
+            columnPaths: columnPaths,
+            columnNames: columnNames,
             resourceName,
         })%>
     <%})%>
+    <%- include('pagination.ejs', { pagination, sort }) %>
 
 </div>

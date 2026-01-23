@@ -1,4 +1,4 @@
-nav {
+nav.navbar {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -10,7 +10,7 @@ nav {
   z-index: 100;
 }
 
-nav a {
+nav.navbar a {
   text-decoration: none;
   color: white;
   background-color: transparent;
@@ -20,18 +20,18 @@ nav a {
   font-weight: 500;
 }
 
-nav a:hover {
+nav.navbar a:hover {
   background-color: var(--primary-hover);
   transform: translateY(-1px);
 }
 
-nav a:active {
+nav.navbar a:active {
   transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  nav a:hover,
-  nav a:active {
+  nav.navbar a:hover,
+  nav.navbar a:active {
     transform: none;
   }
 }
