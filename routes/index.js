@@ -7,9 +7,11 @@ const authMiddlewares = require("../middleware/authMiddlewares.js");
 
 const router = Router();
 
-// router.get("/", (req, res) => {
-//   res.redirect("/jobApps");
-// });
+router.get("/", (req, res) => {
+  res.render("index.ejs", {
+    pageTitle: "Job Application Tracker",
+  });
+});
 
 router.use("/auth", authRoutes);
 router.use(
