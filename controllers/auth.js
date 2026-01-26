@@ -62,7 +62,7 @@ const loginUser = async (req, res) => {
   if (!userInDatabase) {
     return res.render("auth/login.ejs", {
       error: "Login failed. Please try again.",
-      pageTitle: "Register",
+      pageTitle: "Login",
     });
   }
 
@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
   if (!validPassword) {
     return res.render("auth/login.ejs", {
       error: "Login failed. Please try again.",
-      pageTitle: "Register",
+      pageTitle: "Login",
     });
   }
 

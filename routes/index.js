@@ -7,12 +7,17 @@ const authMiddlewares = require("../middleware/authMiddlewares.js");
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.redirect("/jobApps");
-});
+// router.get("/", (req, res) => {
+//   res.redirect("/jobApps");
+// });
 
 router.use("/auth", authRoutes);
-router.use("/jobApps", authMiddlewares.isSignedIn, jobAppRoutes);
+router.use(
+  "/jobApps",
+  authMiddlewares.isSignedIn,
+  authMiddlewares.isAbleToAccessJobApps,
+  jobAppRoutes,
+);
 router.use("/companies", authMiddlewares.isSignedIn, companyRoutes);
 router.use("/resumes", authMiddlewares.isSignedIn, resumeRoutes);
 module.exports = router;

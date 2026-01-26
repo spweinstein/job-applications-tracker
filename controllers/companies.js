@@ -98,6 +98,31 @@ const createCompany = async (req, res) => {
 
 // DELETE "/companies/:id"
 const deleteCompany = async (req, res) => {
+  const jobAppCount = await JobApp.countDocuments({
+    company: req.params.id,
+  });
+  if (jobAppCount > 0) {
+    const [companies, totalCount] = await Promise.all([
+      Company.find({ user: req.session.user._id })
+        .sort({ updatedAt: -1 })
+        .limit(10),
+      Company.countDocuments({ user: req.session.user._id }),
+    ]);
+
+    return res.render("./companies/index.ejs", {
+      pageTitle: "Companies",
+      companies,
+      pagination: {
+        currentPage: 1,
+        totalPages: Math.ceil(totalCount / 10),
+        totalCount,
+        limit: 10,
+      },
+      sort: { sortBy: "updatedAt", sortOrder: "desc" },
+      error: `Cannot delete company. It has ${jobAppCount} linked job application(s). Please delete those first.`,
+    });
+  }
+
   await Company.findOneAndDelete({
     user: req.session.user._id,
     _id: req.params.id,
