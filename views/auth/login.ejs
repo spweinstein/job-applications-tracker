@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <%- include("../partials/nav.ejs") %>
+    <%- include("../partials/nav.ejs") %> <%-
+    include('../partials/pageHeader.ejs') %>
 
-    <h1>Log in</h1>
     <form action="/auth/login" method="POST">
       <label for="username">Username:</label>
       <input type="text" name="username" id="username" />
