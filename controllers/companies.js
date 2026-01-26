@@ -48,13 +48,20 @@ const renderShowCompanyPage = async (req, res) => {
     user: req.session.user._id,
     _id: req.params.id,
   });
-  const jobApps = await JobApp.find({
-    company: req.params.id,
-  });
+  const previewLimit = 10;
+
+  const [jobApps, totalJobAppsCount] = await Promise.all([
+    JobApp.find({ company: req.params.id })
+      .sort({ updatedAt: -1 })
+      .limit(previewLimit),
+    JobApp.countDocuments({ company: req.params.id }),
+  ]);
   res.render("./companies/show.ejs", {
     pageTitle: "Company Details",
     company,
     jobApps,
+    totalJobAppsCount,
+    previewLimit,
   });
 };
 

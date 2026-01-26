@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
 
 const experienceSchema = new mongoose.Schema({
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  //   index: true,
-  // },
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
