@@ -1,0 +1,290 @@
+/* Resume Container - Clean, professional layout */
+.resume-container {
+  max-width: 850px;
+  margin: 0 auto;
+  background: white;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  font-family: "Georgia", "Times New Roman", serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Resume Header */
+.resume-header {
+  text-align: center;
+  border-bottom: 2px solid #2c3e50;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.resume-name {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+}
+
+.resume-link-header {
+  margin-top: 0.5rem;
+}
+
+.resume-link-header a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-family: "Arial", sans-serif;
+}
+
+.resume-link-header a:hover {
+  text-decoration: underline;
+}
+
+/* Summary Section */
+.resume-summary {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-left: 4px solid #3498db;
+  font-style: italic;
+}
+
+/* Section Styling */
+.resume-section {
+  margin-bottom: 2.5rem;
+}
+
+.resume-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #ecf0f1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+}
+
+/* Resume Items (Experience, Projects, Certifications) */
+.resume-item {
+  margin-bottom: 1.75rem;
+  page-break-inside: avoid;
+}
+
+.resume-item:last-child {
+  margin-bottom: 0;
+}
+
+.resume-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+  gap: 1rem;
+}
+
+.resume-item-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2c3e50;
+  flex: 1;
+}
+
+.resume-item-date {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: "Arial", sans-serif;
+}
+
+.resume-item-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.resume-item-company {
+  font-style: italic;
+}
+
+.resume-item-description {
+  font-size: 0.98rem;
+  color: #555;
+  line-height: 1.65;
+  margin-top: 0.5rem;
+  white-space: pre-wrap;
+}
+
+/* Education Items */
+.education-item {
+  margin-bottom: 1.5rem;
+  page-break-inside: avoid;
+}
+
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.education-degree {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.education-school {
+  font-size: 1rem;
+  color: #555;
+  font-style: italic;
+}
+
+.education-year {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: "Arial", sans-serif;
+}
+
+/* Certification Items */
+.certification-item {
+  margin-bottom: 1.5rem;
+  page-break-inside: avoid;
+}
+
+/* Project Links */
+.project-title-link {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.project-title-link:hover {
+  color: #3498db;
+}
+
+.project-link-icon {
+  font-size: 0.85rem;
+  margin-left: 0.25rem;
+  color: #3498db;
+}
+
+/* Skills Section */
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: #ecf0f1;
+  color: #2c3e50;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: "Arial", sans-serif;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.skill-tag:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Notes Section - Outside resume, for internal use */
+.resume-notes {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: "Arial", sans-serif;
+}
+
+.resume-notes strong {
+  color: #856404;
+}
+
+/* Actions */
+.resume-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #ecf0f1;
+}
+
+/* Print Styles */
+@media print {
+  .resume-container {
+    max-width: 100%;
+    padding: 0.5in;
+    box-shadow: none;
+    font-size: 11pt;
+  }
+
+  .resume-name {
+    font-size: 24pt;
+  }
+
+  .resume-section-title {
+    font-size: 14pt;
+  }
+
+  .resume-notes,
+  .resume-actions,
+  .navbar,
+  .btn {
+    display: none !important;
+  }
+
+  .resume-item,
+  .education-item,
+  .certification-item {
+    page-break-inside: avoid;
+  }
+
+  .skill-tag {
+    border: 1px solid #ccc;
+    background: white;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .resume-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .resume-name {
+    font-size: 2rem;
+  }
+
+  .resume-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .education-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .resume-item-date,
+  .education-year {
+    white-space: normal;
+  }
+}

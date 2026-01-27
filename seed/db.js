@@ -18,7 +18,7 @@ const seedDatabase = async () => {
 
     // Find demo user
     const demoUser = await User.findOne({
-      username: "spencer",
+      username: process.env.DEMO_USER,
     });
     console.log("Found demo user");
 
