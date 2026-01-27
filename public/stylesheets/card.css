@@ -1,11 +1,11 @@
 .card {
-  max-width: 400px;
+  max-width: 100vw;
   padding: var(--space-xl);
   border: var(--border);
   background: var(--bg-white);
   box-shadow: var(--shadow-sm);
   gap: var(--space-md);
-  min-width: 300px;
+  min-width: 80vw;
 }
 
 .card-header {

@@ -9,27 +9,43 @@
         <%- include('../partials/pageHeader.ejs'); %>
 
             <form class="crud-form" action="/resumes" method="POST">
-                <%- include('../components/forms/textInput.ejs', {
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "name",
                     fieldLabel: "Name",
-                    fieldValue: ""
+                    fieldValue: "",
+                    required: true
                 })%>
 
-                <%- include('../components/forms/textInput.ejs', {
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "link",
                     fieldLabel: "Link",
                     fieldValue: ""
                 })%>
 
-                <%- include('../components/forms/textInput.ejs', {
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "notes",
                     fieldLabel: "Notes",
                     fieldValue: ""
                 })%>
-                <div class="actions">
-                <button type="submit">Add Application</button>
+
+                <div class="field">
+                    <label for="summary">Objective Statement</label>
+                    <textarea name="summary" id="summary"></textarea>
                 </div>
+
+                <%- include('./experiencePartial.ejs', {companies}); %>
+                <%- include('./educationPartial.ejs'); %>
+                <%- include('./projectsPartial.ejs'); %>
+                <%- include('./certificationsPartial.ejs'); %>
+
+
+                <div class="actions">
+                    <button type="submit">Add Resume</button>
+                </div>
+            <%-include('repeatableFieldGroup.ejs') %>
             </form>
+
+
         </main>
     </body>
 </html>

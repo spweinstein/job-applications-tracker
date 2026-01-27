@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT ? process.env.PORT : 3000;
 
 // Middleware
-app.use(express.urlencoded({ extended: false })); // Parse through Form Data and adds it to request body
+app.use(express.urlencoded({ extended: true })); // Parse through Form Data and adds it to request body
 app.use(methodOverride("_method")); // Tricks Form POST request so we can use PUT / DELETE
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));

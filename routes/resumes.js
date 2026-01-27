@@ -6,7 +6,9 @@ const router = Router();
 router.get("/", controllers.renderIndex);
 router.get("/new", controllers.renderNewResumeForm);
 router.post("/", controllers.createResume);
-// router.put("/:id/edit", controllers.updateResume);
-// router.get("/:id", controllers.showResume);
+router.get("/:id/edit", controllers.renderEditResumeForm);
+router.put("/:id", controllers.updateResume);
+router.get("/:id", controllers.showResume);
+router.delete("/:id", controllers.deleteResume);
 
 module.exports = router;

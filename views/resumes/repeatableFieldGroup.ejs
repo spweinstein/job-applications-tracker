@@ -1,0 +1,77 @@
+<script defer>
+  function initRepeatableGroup(container) {
+    const groupName = container.dataset.group; // e.g., "experience"
+    const list = container.querySelector(".repeatable-list");
+    const addBtn = container.querySelector(".repeatable-add");
+    const template = container.querySelector(".repeatable-template");
+    const blockClass = "repeatable-block";
+    const removeClass = "repeatable-remove";
+
+    function getNextIndex() {
+      return list.querySelectorAll(`.${blockClass}`).length;
+    }
+
+    function addBlock() {
+      const nextIndex = getNextIndex();
+      const fragment = template.content.cloneNode(true);
+
+      fragment.querySelectorAll("[name]").forEach((el) => {
+        el.name = el.name.replaceAll("__INDEX__", nextIndex);
+      });
+
+      const block = fragment.querySelector(`.${blockClass}`);
+      block.dataset.index = nextIndex;
+      list.appendChild(fragment);
+    }
+
+    list.addEventListener("click", (e) => {
+      if (e.target.classList.contains(removeClass)) {
+        e.target.closest(`.${blockClass}`).remove();
+        reindexBlocks();
+      }
+    });
+
+    function reindexBlocks() {
+      const blocks = list.querySelectorAll(`.${blockClass}`);
+      const groupRegex = new RegExp(`${groupName}\\[\\d+\\]`);
+      const isOptional = container.dataset.optional === "true";
+
+      blocks.forEach((block, newIndex) => {
+        block.dataset.index = newIndex;
+        block.querySelectorAll("[name]").forEach((el) => {
+          el.name = el.name.replace(groupRegex, `${groupName}[${newIndex}]`);
+        });
+      });
+
+      blocks.forEach((block) => {
+        const removeBtn = block.querySelector(`.${removeClass}`);
+        if (removeBtn) {
+          // If optional, always show remove button
+          // If required, show when more than one block exists
+          removeBtn.style.display =
+            isOptional || blocks.length > 1 ? "inline-block" : "none";
+        }
+      });
+    }
+
+    addBtn.addEventListener("click", () => {
+      addBlock();
+      reindexBlocks();
+    });
+
+    // Check if blocks already exist (edit mode)
+    const existingBlocks = list.querySelectorAll(`.${blockClass}`);
+    const isOptional = container.dataset.optional === "true";
+
+    if (existingBlocks.length === 0 && !isOptional) {
+      // New mode: add one empty block
+      addBlock();
+    }
+
+    // Always run reindex to ensure remove buttons are shown/hidden correctly
+    reindexBlocks();
+  }
+
+  // Auto-initialize all repeatable groups on the page
+  document.querySelectorAll("[data-group]").forEach(initRepeatableGroup);
+</script>

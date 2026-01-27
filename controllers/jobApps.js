@@ -1,18 +1,39 @@
-// const User = require("../models/user.js");
 const JobApp = require("../models/jobApp.js");
 const Company = require("../models/company.js");
+const Resume = require("../models/resume.js");
 
 // GET "/jobApps/"
 const renderIndex = async (req, res) => {
-  const jobApps = await JobApp.find({
-    user: req.session.user._id,
-  });
-  await JobApp.populate(jobApps, { path: "company" });
-  console.log(jobApps);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const sortBy = req.query.sortBy || "appliedAt";
+  const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
+
+  const skip = (page - 1) * limit;
+
+  const filter = { user: req.session.user._id };
+
+  const [jobApps, totalCount] = await Promise.all([
+    JobApp.find(filter)
+      .populate("company")
+      .sort({ [sortBy]: sortOrder })
+      .skip(skip)
+      .limit(limit),
+    JobApp.countDocuments(filter),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
 
   res.render("./jobApps/index.ejs", {
     pageTitle: "Job Applications",
     jobApps,
+    pagination: {
+      currentPage: page,
+      totalPages,
+      totalCount,
+      limit,
+    },
+    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
@@ -21,9 +42,13 @@ const renderNewAppForm = async (req, res) => {
   const companies = await Company.find({
     user: req.session.user._id,
   });
+  const resumes = await Resume.find({
+    user: req.session.user._id,
+  });
   res.render("./jobApps/new.ejs", {
     pageTitle: "New Job Application",
     companies,
+    resumes,
   });
 };
 
@@ -32,9 +57,9 @@ const renderShowAppPage = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
     user: req.session.user._id,
-  });
-  await jobApp.populate("company");
-  console.log(jobApp);
+  })
+    .populate("company")
+    .populate("resume");
   res.render("./jobApps/show.ejs", {
     pageTitle: `View Job App`,
     jobApp,
@@ -46,9 +71,13 @@ const renderEditAppForm = async (req, res) => {
   const jobApp = await JobApp.findOne({
     _id: req.params.id,
     user: req.session.user._id,
-  });
-  await jobApp.populate("company");
+  })
+    .populate("company")
+    .populate("resume");
   const companies = await Company.find({
+    user: req.session.user._id,
+  });
+  const resumes = await Resume.find({
     user: req.session.user._id,
   });
 
@@ -56,12 +85,12 @@ const renderEditAppForm = async (req, res) => {
     pageTitle: "Edit Job App",
     jobApp,
     companies,
+    resumes,
   });
 };
 
 // POST "/jobApps/"
 const createApp = async (req, res) => {
-  //   console.log(req.body);
   req.body.archived = req.body.archived === "on" ? true : false;
   req.body.user = req.session.user._id;
   // Remove appliedAt if it's an empty string
@@ -87,9 +116,7 @@ const deleteApp = async (req, res) => {
 
 // PUT "/jobApps/:id"
 const updateApp = async (req, res) => {
-  console.log(req.body);
   req.body.archived = req.body.archived === "on" ? true : false;
-  //   await JobApp.findByIdAndUpdate(req.params.id, req.body);
   // Remove appliedAt if it's an empty string
   if (req.body.appliedAt === "") {
     delete req.body.appliedAt;

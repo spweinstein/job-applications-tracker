@@ -15,9 +15,13 @@
 }%>
 
 <div class="table-row">
-    <% for(const col of columns){ %>
+    <% for(const colPath of columnPaths){ %>
+        <%
+            let val = getPath(colPath, row);
+            val = (val instanceof Date && !isNaN(val.getTime())) ? val.toLocaleDateString() : val;
+        %>
         <div>
-            <%= getPath(col, row) %>
+            <%= val %>
         </div>
     <% } %>
     <div class="actions">

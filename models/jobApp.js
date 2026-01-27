@@ -13,6 +13,11 @@ const jobAppSchema = new mongoose.Schema(
       ref: "Company",
       required: true,
     },
+    resume: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Resume",
+      required: true,
+    },
     title: String,
     status: {
       type: String,
@@ -33,10 +38,6 @@ const jobAppSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
       index: true,
-    },
-    archived: {
-      type: Boolean,
-      default: false,
     },
     url: String,
   },

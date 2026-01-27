@@ -1,0 +1,62 @@
+<div data-group="certifications" data-optional="true">
+  <h2>Certifications</h2>
+  <div class="repeatable-list">
+    <% if (locals.resume && resume.certifications && resume.certifications.length > 0) { %>
+      <% resume.certifications.forEach((cert, index) => { %>
+        <div class="repeatable-block" data-index="<%= index %>">
+          <%- include('../partials/forms/selectInput.ejs', {
+            fieldName: `certifications[${index}][company]`,
+            fieldLabel: "Company (Optional)",
+            fieldValue: cert.company ? String(cert.company._id || cert.company) : "",
+            fieldOptions: [{value: "", label: "None"}, ...companies.map(c => ({value: String(c._id), label: c.name}))]
+          })%>
+          <%- include('../partials/forms/textInput.ejs', {
+            fieldName: `certifications[${index}][title]`,
+            fieldLabel: "Certification Title",
+            fieldValue: cert.title,
+            required: true
+          })%>
+          <div class="field">
+            <label>Year (Optional)</label>
+            <input type="number" name="certifications[<%= index %>][year]" 
+                   value="<%= cert.year || '' %>">
+          </div>
+          <div class="field">
+            <label>Description (Optional)</label>
+            <textarea name="certifications[<%= index %>][description]"><%= cert.description || '' %></textarea>
+          </div>
+          <button type="button" class="repeatable-remove">Remove</button>
+          <hr />
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+  
+  <template class="repeatable-template">
+    <div class="repeatable-block" data-index="__INDEX__">
+      <%- include('../partials/forms/selectInput.ejs', {
+        fieldName: "certifications[__INDEX__][company]",
+        fieldLabel: "Company (Optional)",
+        fieldValue: "",
+        fieldOptions: [{value: "", label: "None"}, ...companies.map(c => ({value: String(c._id), label: c.name}))]
+      })%>
+      <div class="field">
+        <label>Certification Title</label>
+        <input type="text" name="certifications[__INDEX__][title]" required>
+      </div>
+      <div class="field">
+        <label>Year (Optional)</label>
+        <input type="number" name="certifications[__INDEX__][year]">
+      </div>
+      <div class="field">
+        <label>Description (Optional)</label>
+        <textarea name="certifications[__INDEX__][description]"></textarea>
+      </div>
+      <button type="button" class="repeatable-remove" style="display: none">
+        Remove
+      </button>
+      <hr />
+    </div>
+  </template>
+  <button type="button" class="repeatable-add">+ Add another certification</button>
+</div>

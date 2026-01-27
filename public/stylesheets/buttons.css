@@ -57,7 +57,7 @@ button[type="submit"]:not(.btn-delete):not(.btn-danger):hover {
 /* Button Sizes */
 .btn-sm {
   padding: 2px 3px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .btn-lg {

@@ -28,33 +28,15 @@
         </div>
       </div>
       <h2>Job Applications</h2>
-      <div class="table-container">
-        <div class="table-header">
-          <div>Job Title</div>
-          <div>Status</div>
-          <div>Priority</div>
-          <div>Source</div>
-          <div>Actions</div>
-        </div>
-
-        <div class="table-body">
-          <% jobApps.forEach(app => { %>
-          <div class="table-row">
-            <div><%= app.title %></div>
-            <div><span class="status status-<%= app.status.toLowerCase()%>"><%= app.status %></span></div>
-            <div><span class="priority priority-<%= app.priority.toLowerCase()%>"><%= app.priority %></span></div>
-            <div><%= app.source %></div>
-            <div class="actions">
-              <a href="/jobApps/<%=app._id%>" class="btn btn-warning btn-sm">View</a>
-              <a href="/jobApps/<%=app._id%>/edit" class="btn btn-primary btn-sm">Edit</a>
-              <form action="/jobApps/<%=app._id%>?_method=DELETE" method="POST">
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-              </form>
-            </div>
-          </div>
-          <% }); %>
-        </div>
-      </div>
+        <%- include('../partials/tables/table.ejs', {
+          columnNames: ["Job Title", "Status", "Priority", "Source"],
+          columnPaths: ["title", "status", "priority", "source"],
+          rows: jobApps,
+          resourceName: "jobApps",
+          sort: null,
+          pagination: null,
+          totalCount: totalJobAppsCount
+        }) %>
     </main>
   </body>
 </html>

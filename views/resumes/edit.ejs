@@ -8,26 +8,41 @@
         <main class="page-container">
         <%- include('../partials/pageHeader.ejs'); %>
 
-            <form class="crud-form" action="/resumes" method="POST">
-                <%- include('../components/forms/textInput.ejs', {
+            <form class="crud-form" action="/resumes/<%=resume._id%>?_method=PUT" method="POST">
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "name",
                     fieldLabel: "Name",
                     fieldValue: resume.name
                 })%>
 
-                <%- include('../components/forms/textInput.ejs', {
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "link",
                     fieldLabel: "Link",
-                    fieldValue: resume.name
+                    fieldValue: resume.link
                 })%>
 
-                <%- include('../components/forms/textInput.ejs', {
+                <%- include('../partials/forms/textInput.ejs', {
                     fieldName: "notes",
                     fieldLabel: "Notes",
-                    fieldValue: resume.name
+                    fieldValue: resume.notes
                 })%>
+
+                <div class="field">
+                    <label for="summary">Objective Statement</label>
+                    <textarea name="summary" id="summary"><%= resume.summary %></textarea>
+                </div>
+
+                <%- include('./experiencePartial.ejs', {companies, resume}); %>
+                <%- include('./educationPartial.ejs', {resume}); %>
+                <%- include('./projectsPartial.ejs', {resume}); %>
+                <%- include('./certificationsPartial.ejs', {resume}); %>
+
+
+                <%-include('repeatableFieldGroup.ejs') %>
+
+
                 <div class="actions">
-                    <button type="submit">Add Application</button>
+                    <button type="submit">Save Resume</button>
                 </div>
             </form>
         </main>

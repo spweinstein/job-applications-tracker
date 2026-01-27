@@ -3,7 +3,9 @@ const bcrypt = require("bcrypt");
 
 // GET "/auth/register"
 const renderRegistrationForm = (req, res) => {
-  res.render("auth/register.ejs");
+  res.render("auth/register.ejs", {
+    pageTitle: "Register",
+  });
 };
 
 // POST "/auth/register"
@@ -11,12 +13,18 @@ const registerUser = async (req, res) => {
   // Make sure username is not already taken
   const userInDatabase = await User.findOne({ username: req.body.username });
   if (userInDatabase) {
-    return res.send("Username already taken.");
+    return res.render("auth/register.ejs", {
+      error: "Username already taken.",
+      pageTitle: "Register",
+    });
   }
 
   // Make sure password and confirm password are the same
   if (req.body.password !== req.body.confirmPassword) {
-    return res.send("Password and Confirm Password must match");
+    return res.render("auth/register.ejs", {
+      error: "Password and confirm password must match.",
+      pageTitle: "Register",
+    });
   }
 
   // Hash the password
@@ -41,7 +49,9 @@ const registerUser = async (req, res) => {
 
 // GET "/auth/login"
 const renderLoginForm = (req, res) => {
-  res.render("auth/login.ejs");
+  res.render("auth/login.ejs", {
+    pageTitle: "Log In",
+  });
 };
 
 // POST "/auth/login"
@@ -50,7 +60,10 @@ const loginUser = async (req, res) => {
   const userInDatabase = await User.findOne({ username: req.body.username });
 
   if (!userInDatabase) {
-    return res.send("Login failed. Please try again");
+    return res.render("auth/login.ejs", {
+      error: "Login failed. Please try again.",
+      pageTitle: "Login",
+    });
   }
 
   // Compare userInDatabase's hashed password against Form Data password hashed by bcrypt
@@ -60,7 +73,10 @@ const loginUser = async (req, res) => {
   );
 
   if (!validPassword) {
-    return res.send("Login failed. Please try again.");
+    return res.render("auth/login.ejs", {
+      error: "Login failed. Please try again.",
+      pageTitle: "Login",
+    });
   }
 
   // Manage Session

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs'); %>
+
+  <body>
+    <%- include('../partials/nav.ejs');%>
+    
+    <main class="page-container">
+      <%- include('../partials/pageHeader.ejs'); %>
+      
+      <div class="card">
+        <div class="resume-container">
+          <!-- Resume Header -->
+          <div class="resume-header">
+            <h1 class="resume-name"><%= resume.name %></h1>
+            <% if(resume.link){ %>
+            <div class="resume-link-header">
+              <a href="<%= resume.link %>" target="_blank">View Resume Document</a>
+            </div>
+            <% } %>
+          </div>
+
+          <!-- Summary -->
+          <% if(resume.summary){ %>
+          <div class="resume-summary">
+            <%= resume.summary %>
+          </div>
+          <% } %>
+
+          <!-- Experience Section -->
+          <% if(resume.experience && resume.experience.length > 0){ %>
+          <div class="resume-section">
+            <h2 class="resume-section-title">Experience</h2>
+            <% resume.experience.forEach((exp) => { %>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title"><%= exp.title %></div>
+                <div class="resume-item-date">
+                  <%= new Date(exp.startDate).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}) %>
+                  - 
+                  <%= exp.endDate ? new Date(exp.endDate).toLocaleDateString('en-US', {month: 'short', year: 'numeric'}) : 'Present' %>
+                </div>
+              </div>
+              <div class="resume-item-subtitle resume-item-company">
+                <%= exp.company.name || 'Company' %>
+              </div>
+              <% if(exp.description){ %>
+              <div class="resume-item-description"><%= exp.description %></div>
+              <% } %>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+
+          <!-- Education Section -->
+          <% if(resume.education && resume.education.length > 0){ %>
+          <div class="resume-section">
+            <h2 class="resume-section-title">Education</h2>
+            <% resume.education.forEach((edu) => { %>
+            <div class="education-item">
+              <div class="education-header">
+                <div>
+                  <div class="education-degree"><%= edu.degree %></div>
+                  <div class="education-school"><%= edu.school %></div>
+                </div>
+                <% if(edu.year){ %>
+                <div class="education-year"><%= edu.year %></div>
+                <% } %>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+
+          <!-- Projects Section -->
+          <% if(resume.projects && resume.projects.length > 0){ %>
+          <div class="resume-section">
+            <h2 class="resume-section-title">Projects</h2>
+            <% resume.projects.forEach((proj) => { %>
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title">
+                  <% if(proj.link){ %>
+                  <a href="<%= proj.link %>" target="_blank" class="project-title-link">
+                    <%= proj.title %><span class="project-link-icon">↗</span>
+                  </a>
+                  <% } else { %>
+                  <%= proj.title %>
+                  <% } %>
+                </div>
+                <% if(proj.year){ %>
+                <div class="resume-item-date"><%= proj.year %></div>
+                <% } %>
+              </div>
+              <% if(proj.company){ %>
+              <div class="resume-item-subtitle resume-item-company">
+                <%= proj.company.name %>
+              </div>
+              <% } %>
+              <% if(proj.description){ %>
+              <div class="resume-item-description"><%= proj.description %></div>
+              <% } %>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+
+          <!-- Certifications Section -->
+          <% if(resume.certifications && resume.certifications.length > 0){ %>
+          <div class="resume-section">
+            <h2 class="resume-section-title">Certifications</h2>
+            <% resume.certifications.forEach((cert) => { %>
+            <div class="certification-item">
+              <div class="resume-item-header">
+                <div class="resume-item-title"><%= cert.title %></div>
+                <% if(cert.year){ %>
+                <div class="resume-item-date"><%= cert.year %></div>
+                <% } %>
+              </div>
+              <% if(cert.company){ %>
+              <div class="resume-item-subtitle"><%= cert.company.name %></div>
+              <% } %>
+              <% if(cert.description){ %>
+              <div class="resume-item-description"><%= cert.description %></div>
+              <% } %>
+            </div>
+            <% }) %>
+          </div>
+          <% } %>
+
+          <!-- Skills Section -->
+          <% if(resume.skills && resume.skills.length > 0){ %>
+          <div class="resume-section">
+            <h2 class="resume-section-title">Skills</h2>
+            <div class="skills-list">
+              <% resume.skills.forEach((skill) => { %>
+              <span class="skill-tag"><%= skill %></span>
+              <% }) %>
+            </div>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- Notes (outside resume container) -->
+        <% if(resume.notes){ %>
+        <div class="resume-notes">
+          <strong>Internal Notes:</strong>
+          <%= resume.notes %>
+        </div>
+        <% } %>
+
+        <!-- Actions -->
+        <div class="actions resume-actions">
+          <a href="/resumes/<%=resume._id%>/edit" class="btn btn-primary btn-sm">Edit</a>
+          <form action="/resumes/<%=resume._id%>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

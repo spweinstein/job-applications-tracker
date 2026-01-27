@@ -1,0 +1,9 @@
+<div class="field">
+  <label> <%= fieldLabel %> </label>
+  <input 
+    type="date" 
+    name="<%= fieldName %>" 
+    value="<%=fieldValue%>" 
+    <%= (typeof required !== 'undefined' && required) ? 'required' : ''%>
+  />
+</div>

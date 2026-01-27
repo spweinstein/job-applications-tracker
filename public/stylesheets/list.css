@@ -31,7 +31,8 @@
 }
 
 .table-row > div {
-  padding: var(--space-md);
+  font-size: 12px;
+  padding: var(--space-sm);
   border-top: var(--border);
 }
 
@@ -42,4 +43,9 @@
 /* Make the delete button participate in the flex layout with view/edit */
 .table-row .actions form {
   display: contents;
+}
+
+nav.pagination {
+  grid-column: 1/-1;
+  margin: 0 auto;
 }

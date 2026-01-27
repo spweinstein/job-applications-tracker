@@ -1,0 +1,70 @@
+<div data-group="experience">
+    <h2>Experience</h2>
+    <div class="repeatable-list">
+        <% if (locals.resume && resume.experience && resume.experience.length > 0) { %>
+            <% resume.experience.forEach((exp, index) => { %>
+                <div class="repeatable-block" data-index="<%= index %>">
+                    <%- include('../partials/forms/selectInput.ejs', {
+                        fieldName: `experience[${index}][company]`,
+                        fieldLabel: "Company",
+                        fieldValue: String(exp.company._id || exp.company),
+                        fieldOptions: companies.map(c => ({value: String(c._id), label: c.name}))
+                    })%>
+                    <%- include('../partials/forms/textInput.ejs', {
+                        fieldName: `experience[${index}][title]`,
+                        fieldLabel: "Job Title",
+                        fieldValue: exp.title,
+                        required: true
+                    })%>
+                    <div class="field">
+                        <label>Start Date</label>
+                        <input type="month" name="experience[<%= index %>][startDate]" 
+                               value="<%= exp.startDate ? new Date(exp.startDate).toISOString().slice(0,7) : '' %>" required>
+                    </div>
+                    <div class="field">
+                        <label>End Date</label>
+                        <input type="month" name="experience[<%= index %>][endDate]" 
+                               value="<%= exp.endDate ? new Date(exp.endDate).toISOString().slice(0,7) : '' %>">
+                    </div>
+                    <div class="field">
+                        <label>Description</label>
+                        <textarea name="experience[<%= index %>][description]" required><%= exp.description || '' %></textarea>
+                    </div>
+                    <button type="button" class="repeatable-remove">Remove</button>
+                    <hr />
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+    
+    <template class="repeatable-template">
+        <div class="repeatable-block" data-index="__INDEX__">
+            <%- include('../partials/forms/selectInput.ejs', {
+                fieldName: "experience[__INDEX__][company]",
+                fieldLabel: "Company",
+                fieldValue: companies.length ? String(companies[0]._id) : "",
+                fieldOptions: companies.map(c => ({value: String(c._id), label: c.name}))
+            })%>
+            <div class="field">
+                <label>Job Title</label>
+                <input type="text" name="experience[__INDEX__][title]" required>
+            </div>
+            <div class="field">
+                <label>Start Date</label>
+                <input type="month" name="experience[__INDEX__][startDate]" required>
+            </div>
+            <div class="field">
+                <label>End Date</label>
+                <input type="month" name="experience[__INDEX__][endDate]" required>
+            </div>
+            <div class="field">
+                <label>Description</label>
+                <textarea name="experience[__INDEX__][description]" required></textarea>
+            </div>
+            <button type="button" class="repeatable-remove" style="display:none;">Remove</button>
+            <hr />
+        </div>
+    </template>
+    
+    <button type="button" class="repeatable-add">+ Add another experience</button>
+</div>

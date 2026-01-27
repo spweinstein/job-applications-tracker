@@ -8,9 +8,9 @@
       <%- include('../partials/pageHeader.ejs'); %>
       <a class="btn btn-primary btn-lg" href="/companies/new">+ ADD COMPANY</a>
 
-      <%- include('../components/tables/table.ejs', {
-        columnNames: ["Company", "Website", "Description", "Notes"],
-        columnPaths: ["name", "website", "description", "notes"],
+      <%- include('../partials/tables/table.ejs', {
+        columnNames: ["Company", "Last Updated", "Notes"],
+        columnPaths: ["name", "updatedAt", "notes"],
         resourceName: "companies",
         rows: companies
       })%>

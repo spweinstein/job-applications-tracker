@@ -1,0 +1,70 @@
+<div data-group="projects" data-optional="true">
+    <h2>Projects</h2>
+    <div class="repeatable-list">
+        <% if (locals.resume && resume.projects && resume.projects.length > 0) { %>
+            <% resume.projects.forEach((proj, index) => { %>
+                <div class="repeatable-block" data-index="<%= index %>">
+                    <%- include('../partials/forms/selectInput.ejs', {
+                        fieldName: `projects[${index}][company]`,
+                        fieldLabel: "Company (Optional)",
+                        fieldValue: proj.company ? String(proj.company._id || proj.company) : "",
+                        fieldOptions: [{value: "", label: "None"}, ...companies.map(c => ({value: String(c._id), label: c.name}))]
+                    })%>
+                    <%- include('../partials/forms/textInput.ejs', {
+                        fieldName: `projects[${index}][title]`,
+                        fieldLabel: "Project Title",
+                        fieldValue: proj.title,
+                        required: true
+                    })%>
+                    <%- include('../partials/forms/textInput.ejs', {
+                        fieldName: `projects[${index}][link]`,
+                        fieldLabel: "Link (Optional)",
+                        fieldValue: proj.link || ""
+                    })%>
+                    <div class="field">
+                        <label>Year (Optional)</label>
+                        <input type="number" name="projects[<%= index %>][year]" 
+                               value="<%= proj.year || '' %>">
+                    </div>
+                    <div class="field">
+                        <label>Description (Optional)</label>
+                        <textarea name="projects[<%= index %>][description]"><%= proj.description || '' %></textarea>
+                    </div>
+                    <button type="button" class="repeatable-remove">Remove</button>
+                    <hr />
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+    
+    <template class="repeatable-template">
+        <div class="repeatable-block" data-index="__INDEX__">
+            <%- include('../partials/forms/selectInput.ejs', {
+                fieldName: "projects[__INDEX__][company]",
+                fieldLabel: "Company (Optional)",
+                fieldValue: "",
+                fieldOptions: [{value: "", label: "None"}, ...companies.map(c => ({value: String(c._id), label: c.name}))]
+            })%>
+            <div class="field">
+                <label>Project Title</label>
+                <input type="text" name="projects[__INDEX__][title]" required>
+            </div>
+            <div class="field">
+                <label>Link (Optional)</label>
+                <input type="text" name="projects[__INDEX__][link]">
+            </div>
+            <div class="field">
+                <label>Year (Optional)</label>
+                <input type="number" name="projects[__INDEX__][year]">
+            </div>
+            <div class="field">
+                <label>Description (Optional)</label>
+                <textarea name="projects[__INDEX__][description]"></textarea>
+            </div>
+            <button type="button" class="repeatable-remove" style="display:none;">Remove</button>
+            <hr />
+        </div>
+    </template>
+    
+    <button type="button" class="repeatable-add">+ Add another project</button>
+</div>

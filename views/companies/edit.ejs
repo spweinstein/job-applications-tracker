@@ -12,25 +12,25 @@
         action="/companies/<%=company._id%>?_method=PUT"
         method="POST"
       >
-       <%- include('../components/forms/textInput.ejs', {
+       <%- include('../partials/forms/textInput.ejs', {
           fieldName: "name",
           fieldLabel: "Name",
           fieldValue: company.name
         }) %>
 
-       <%- include('../components/forms/textInput.ejs', {
+       <%- include('../partials/forms/textInput.ejs', {
           fieldName: "website",
           fieldLabel: "Website",
           fieldValue: company.website
         }) %>
 
-       <%- include('../components/forms/textInput.ejs', {
+       <%- include('../partials/forms/textInput.ejs', {
           fieldName: "description",
           fieldLabel: "Description",
           fieldValue: company.description
         }) %>
 
-       <%- include('../components/forms/textInput.ejs', {
+       <%- include('../partials/forms/textInput.ejs', {
           fieldName: "notes",
           fieldLabel: "Notes",
           fieldValue: company.notes

@@ -6,18 +6,24 @@
     <main class="page-container">
       <%- include('../partials/pageHeader.ejs'); %>
       <form class="crud-form" action="/jobApps/<%=jobApp._id%>?_method=PUT" method="POST">
-        <%- include('../components/forms/selectInput.ejs', {
+        <%- include('../partials/forms/selectInput.ejs', {
           fieldName: "company",
           fieldLabel: "Company",
           fieldValue: String(jobApp.company?._id),
           fieldOptions: companies.map(company=>{return {value: String(company._id), label: company.name}})
         })%>
-        <%- include('../components/forms/textInput.ejs', {
+        <%- include('../partials/forms/selectInput.ejs', {
+          fieldName: "resume",
+          fieldLabel: "Resume",
+          fieldValue: String(jobApp.resume?._id),
+          fieldOptions: resumes.map(resume=>{return {value: String(resume._id), label: resume.name}})
+        })%>
+        <%- include('../partials/forms/textInput.ejs', {
           fieldName: "title",
           fieldLabel: "Title",
           fieldValue: jobApp.title
         }) %>
-        <%- include('../components/forms/selectInput.ejs', {
+        <%- include('../partials/forms/selectInput.ejs', {
           fieldName: "status",
           fieldLabel: "Application Status",
           fieldValue: jobApp.status,
@@ -41,7 +47,7 @@
           ]
         })%>
 
-        <%- include('../components/forms/selectInput.ejs', {
+        <%- include('../partials/forms/selectInput.ejs', {
           fieldName: "source",
           fieldLabel: "Application Source",
           fieldValue: jobApp.source,
@@ -65,7 +71,7 @@
           ]
         })%>
   
-        <%- include('../components/forms/selectInput.ejs', {
+        <%- include('../partials/forms/selectInput.ejs', {
           fieldName: "priority",
           fieldLabel: "Application Priority",
           fieldValue: jobApp.priority,
@@ -85,22 +91,16 @@
           ]
         })%>
 
-        <%- include('../components/forms/textInput.ejs', {
+        <%- include('../partials/forms/textInput.ejs', {
           fieldName: "url",
           fieldLabel: "Link",
           fieldValue: jobApp.url
         }) %>
 
-        <%- include('../components/forms/checkboxInput.ejs', {
-          fieldName: "archived",
-          fieldLabel: "Archived",
-          checked: jobApp.archived
-        }) %>
-
-        <%- include('../components/forms/textInput.ejs', {
+        <%- include('../partials/forms/dateInput.ejs', {
           fieldName: "appliedAt",
           fieldLabel: "Applied At",
-          fieldValue: (jobApp.appliedAt).toISOString().slice(0,10)
+          fieldValue: jobApp.appliedAt ? jobApp.appliedAt.toISOString().slice(0,10) : new Date().toISOString().slice(0,10)
         }) %>
 
         <div class="actions">

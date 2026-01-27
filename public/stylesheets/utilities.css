@@ -20,6 +20,27 @@
   padding: 0;
 }
 
+#error-message {
+  background: #fdecea;
+  border-left: 4px solid var(--danger);
+  color: #c62828;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-xs);
+  margin-bottom: var(--space-lg);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hide when empty */
+#error-message:empty {
+  display: none;
+}
+
+#error-message::before {
+  content: "⚠️ ";
+  margin-right: var(--space-sm);
+}
+
 /* Focus States */
 input:focus,
 select:focus {

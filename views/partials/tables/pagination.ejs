@@ -1,0 +1,44 @@
+<% if (pagination.totalPages > 1) { %>
+  <nav class="pagination">
+    
+    <% 
+      // If we're past the first page, show the previous link
+      if (pagination.currentPage > 1) { 
+          let urlParams = {
+              // Keep sortBy and sortOrder the same
+              sortBy: sort.sortBy,
+              sortOrder: sort.sortOrder,
+              // Decrement the page
+              page: pagination.currentPage-1,
+              // Keep limit the same
+              limit: pagination.limit
+          };
+          const href = "?"+Object.entries(urlParams).map(param=>param.join("=")).join("&");
+    %>
+      <a href="<%= href %>" 
+         class="btn btn-secondary">← Previous</a>
+    <% } %>
+    
+    <span class="pagination-info">
+      Page <%= pagination.currentPage %> of <%= pagination.totalPages %> 
+      (<%= pagination.totalCount %> records)
+    </span>
+    
+    <% if (pagination.currentPage < pagination.totalPages) { %>
+      <% 
+          let urlParams = {
+              // Keep sortBy and sortOrder the same
+              sortBy: sort.sortBy,
+              sortOrder: sort.sortOrder,
+              // Increment the page
+              page: pagination.currentPage+1,
+              // Keep limit the same
+              limit: pagination.limit
+          };
+          const href = "?"+Object.entries(urlParams).map(param=>param.join("=")).join("&");
+      %>
+      <a href="<%=href%>"
+         class="btn btn-secondary">Next →</a>
+    <% } %>
+  </nav>
+<% } %>

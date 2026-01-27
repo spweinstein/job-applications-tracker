@@ -1,0 +1,48 @@
+<div data-group="education" data-optional="true">
+  <h2>Education</h2>
+  <div class="repeatable-list">
+    <% if (locals.resume && resume.education && resume.education.length > 0) { %>
+      <% resume.education.forEach((edu, index) => { %>
+        <div class="repeatable-block" data-index="<%= index %>">
+          <div class="field">
+            <label>Degree</label>
+            <input type="text" name="education[<%= index %>][degree]" value="<%= edu.degree || '' %>" required />
+          </div>
+          <div class="field">
+            <label>School</label>
+            <input type="text" name="education[<%= index %>][school]" value="<%= edu.school || '' %>" required />
+          </div>
+          <div class="field">
+            <label>Year</label>
+            <input type="number" name="education[<%= index %>][year]" value="<%= edu.year || '' %>" />
+          </div>
+          <button type="button" class="repeatable-remove">Remove</button>
+          <hr />
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+  
+  <template class="repeatable-template">
+    <div class="repeatable-block" data-index="__INDEX__">
+      <div class="field">
+        <label>Degree</label>
+        <input type="text" name="education[__INDEX__][degree]" required />
+      </div>
+      <div class="field">
+        <label>School</label>
+        <input type="text" name="education[__INDEX__][school]" required />
+      </div>
+      <div class="field">
+        <label>Year</label>
+        <input type="number" name="education[__INDEX__][year]" required />
+      </div>
+
+      <button type="button" class="repeatable-remove" style="display: none">
+        Remove
+      </button>
+      <hr />
+    </div>
+  </template>
+  <button type="button" class="repeatable-add">+ Add another degree</button>
+</div>

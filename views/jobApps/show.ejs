@@ -12,6 +12,7 @@
           <div><strong>Company:</strong> <%= jobApp.company.name %></div>
           <div><strong>Job Title:</strong> <%= jobApp.title %></div>
         </div>
+        <div><strong>Resume:</strong> <a href="/resumes/<%= jobApp.resume._id %>">Resume</a></div>
         <div><strong>Status:</strong> <span class="status status-<%= jobApp.status.toLowerCase() %>"><%= jobApp.status %></span></div>
         <div><strong>Priority:</strong> <span class="priority priority-<%= jobApp.priority.toLowerCase() %>"><%= jobApp.priority %></span></div>
         <div><strong>Source:</strong> <%= jobApp.source %></div>

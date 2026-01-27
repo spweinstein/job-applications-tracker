@@ -10,9 +10,9 @@
       <a class="btn btn-primary btn-lg" href="/jobApps/new">+ ADD JOB APPLICATION</a>
 
       <% if(jobApps.length>0){ %>
-        <%- include('../components/tables/table.ejs', {
-          columnNames: ["Job Title", "Company", "Status", "Priority"],
-          columnPaths: ["title", "company.name", "status", "priority"],
+        <%- include('../partials/tables/table.ejs', {
+          columnNames: ["Job Title", "Company", "Status", "Priority", "Last Updated"],
+          columnPaths: ["title", "company.name", "status", "priority", "updatedAt"],
           resourceName: "jobApps",
           rows: jobApps
         })%>
