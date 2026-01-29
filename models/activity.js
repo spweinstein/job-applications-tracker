@@ -12,12 +12,12 @@ const activitySchema = new mongoose.Schema({
 
   company: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Company",
     required: true,
   },
   jobApp: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "JobApp",
     required: true,
   },
   startAt: {

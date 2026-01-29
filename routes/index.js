@@ -4,6 +4,7 @@ const jobAppRoutes = require("./jobApps.js");
 const companyRoutes = require("./companies.js");
 const resumeRoutes = require("./resumes.js");
 const coverLetterRoutes = require("./coverLetters.js");
+const activityRoutes = require("./activities.js");
 
 const authMiddlewares = require("../middleware/authMiddlewares.js");
 
@@ -25,5 +26,6 @@ router.use(
 router.use("/companies", authMiddlewares.isSignedIn, companyRoutes);
 router.use("/resumes", authMiddlewares.isSignedIn, resumeRoutes);
 router.use("/coverLetters", authMiddlewares.isSignedIn, coverLetterRoutes);
+router.use("/activities", authMiddlewares.isSignedIn, activityRoutes);
 
 module.exports = router;

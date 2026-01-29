@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs'); %>
+
+  <body>
+    <%- include('../partials/nav.ejs')%>
+    
+    <main class="page-container">
+      <%- include('../partials/pageHeader.ejs'); %>
+      <a class="btn btn-primary btn-lg" href="/activities/new">+ ADD ACTIVITY</a>
+
+      <% if(activities.length>0){ %>
+        <%- include('../partials/tables/table.ejs', {
+          columnNames: ["Title", "Type", "State", "Company", "Start Date"],
+          columnPaths: ["title", "type", "state", "company.name", "startAt"],
+          resourceName: "activities",
+          rows: activities
+        })%>
+
+      <% } else { %>
+        <p>No activities yet!</p>
+      <% } %>
+    </main>
+  </body>
+</html>

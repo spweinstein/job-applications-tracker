@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs'); %>
+
+  <body>
+    <%- include('../partials/nav.ejs'); %>
+
+    <main class="page-container">
+      <%- include('../partials/pageHeader.ejs'); %>
+
+      <form class="crud-form" action="/activities" method="POST">
+        <%- include('../partials/forms/selectInput.ejs', {
+          fieldName: "company",
+          fieldLabel: "Company",
+          fieldValue: companies.length?String(companies[0]._id):"",
+          fieldOptions: companies.map(company=>{return {value: String(company._id), label: company.name}})
+        })%>
+        <%- include('../partials/forms/selectInput.ejs', {
+          fieldName: "jobApp",
+          fieldLabel: "Job Application",
+          fieldValue: jobApps.length?String(jobApps[0]._id):"",
+          fieldOptions: jobApps.map(jobApp=>{return {value: String(jobApp._id), label: jobApp.title}})
+        })%>
+        <%- include('../partials/forms/textInput.ejs', {
+          fieldName: "title",
+          fieldLabel: "Title",
+          fieldValue: ""
+        }) %>
+        <%- include('../partials/forms/selectInput.ejs', {
+          fieldName: "type",
+          fieldLabel: "Activity Type",
+          fieldValue: "Task",
+          fieldOptions: [
+            {
+              value: "Task",
+              label: "Task"
+            },
+            {
+              value: "Interview",
+              label: "Interview"
+            },
+            {
+              value: "Meeting",
+              label: "Meeting"
+            },
+            {
+              value: "Event",
+              label: "Event"
+            },
+            {
+              value: "Email",
+              label: "Email"
+            },
+            {
+              value: "Call",
+              label: "Call"
+            }
+          ]
+        })%>
+
+        <%- include('../partials/forms/selectInput.ejs', {
+          fieldName: "state",
+          fieldLabel: "State",
+          fieldValue: "Planned",
+          fieldOptions: [
+            {
+              value: "Planned",
+              label: "Planned"
+            },
+            {
+              value: "Done",
+              label: "Done"
+            },
+            {
+              value: "Canceled",
+              label: "Canceled"
+            }
+          ]
+        })%>
+
+        <%- include('../partials/forms/dateInput.ejs', {
+          fieldName: "startAt",
+          fieldLabel: "Start Date",
+          fieldValue: new Date().toISOString().slice(0,10)
+        }) %>
+
+        <%- include('../partials/forms/dateInput.ejs', {
+          fieldName: "endAt",
+          fieldLabel: "End Date",
+          fieldValue: ""
+        }) %>
+
+        <%- include('../partials/forms/textInput.ejs', {
+          fieldName: "description",
+          fieldLabel: "Description",
+          fieldValue: ""
+        }) %>
+
+        <%- include('../partials/forms/textInput.ejs', {
+          fieldName: "notes",
+          fieldLabel: "Notes",
+          fieldValue: ""
+        }) %>
+
+        <div class="actions">
+          <button type="submit">Add Activity</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
