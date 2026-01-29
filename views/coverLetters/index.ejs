@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs'); %>
+
+  <body>
+    <%- include('../partials/nav.ejs')%>
+    
+    <main class="page-container">
+      <%- include('../partials/pageHeader.ejs'); %>
+      <a class="btn btn-primary btn-lg" href="/coverLetters/new">+ ADD COVER LETTER</a>
+
+      <% if(coverLetters.length>0){ %>
+        <%- include('../partials/tables/table.ejs', {
+          columnNames: ["Cover Letter", "Last Updated"],
+          columnPaths: ["name", "updatedAt"],
+          resourceName: "coverLetters",
+          rows: coverLetters
+        })%>
+
+      <% } else { %>
+        <p>No applications yet!</p>
+      <% } %>
+    </main>
+  </body>
+</html>
