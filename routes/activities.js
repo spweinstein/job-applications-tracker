@@ -1,10 +1,11 @@
 const { Router } = require("express");
 const controllers = require("../controllers/activities.js");
+const paginationMiddleware = require("../middleware/paginationMiddleware.js");
 
 const router = Router();
 
 // Routes
-router.get("/", controllers.renderIndex);
+router.get("/", paginationMiddleware(), controllers.renderIndex);
 
 router.get("/new", controllers.renderNewActivityForm);
 

@@ -3,13 +3,8 @@ const JobApp = require("../models/jobApp.js");
 
 // GET "/companies/"
 const renderIndex = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-  const sortBy = req.query.sortBy || "updatedAt";
-  const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
-
-  const skip = (page - 1) * limit;
-
+  const { page, limit, skip } = res.locals.pagination;
+  const { sortBy, sortOrder } = res.locals.sort;
   const filter = { user: req.session.user._id };
 
   const [companies, totalCount] = await Promise.all([

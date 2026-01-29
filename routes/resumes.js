@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const controllers = require("../controllers/resumes.js");
+const paginationMiddleware = require("../middleware/paginationMiddleware.js");
+
 const router = Router();
 
 // GET /resumes/
-router.get("/", controllers.renderIndex);
+router.get("/", paginationMiddleware(), controllers.renderIndex);
 router.get("/new", controllers.renderNewResumeForm);
 router.post("/", controllers.createResume);
 router.get("/:id/edit", controllers.renderEditResumeForm);
