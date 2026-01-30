@@ -21,12 +21,10 @@ const renderIndex = async (req, res) => {
     pageTitle: "Resumes",
     resumes,
     pagination: {
-      currentPage: page,
+      ...res.locals.pagination,
       totalPages,
       totalCount,
-      limit,
     },
-    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
@@ -112,36 +110,21 @@ const showResume = async (req, res) => {
 };
 
 const deleteResume = async (req, res) => {
-  const jobAppCount = await JobApp.countDocuments({
-    resume: req.params.id,
-  });
-  if (jobAppCount > 0) {
-    const [resumes, totalCount] = await Promise.all([
-      Resume.find({ user: req.session.user._id })
-        .sort({ updatedAt: -1 })
-        .limit(10),
-      Resume.countDocuments({ user: req.session.user._id }),
-    ]);
+  const jobAppCount = await JobApp.countDocuments({ resume: req.params.id });
 
-    return res.render("./resumes/index.ejs", {
-      pageTitle: "Resumes",
-      resumes,
-      pagination: {
-        currentPage: 1,
-        totalPages: Math.ceil(totalCount / 10),
-        totalCount,
-        limit: 10,
-      },
-      sort: { sortBy: "updatedAt", sortOrder: "desc" },
-      error: `Cannot delete resume. It has ${jobAppCount} linked job application(s). Please delete those first.`,
-    });
+  if (jobAppCount > 0) {
+    req.flash(
+      "error",
+      `Cannot delete resume. It has ${jobAppCount} linked job application(s). Please delete those first.`,
+    );
+    return res.redirect("/resumes");
   }
 
   await Resume.findOneAndDelete({
     _id: req.params.id,
     user: req.session.user._id,
   });
-  res.redirect("../resumes");
+  res.redirect("/resumes");
 };
 
 module.exports = {

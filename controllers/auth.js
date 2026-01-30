@@ -13,18 +13,14 @@ const registerUser = async (req, res) => {
   // Make sure username is not already taken
   const userInDatabase = await User.findOne({ username: req.body.username });
   if (userInDatabase) {
-    return res.render("auth/register.ejs", {
-      error: "Username already taken.",
-      pageTitle: "Register",
-    });
+    req.flash("error", "Username already taken.");
+    return res.redirect("/auth/register");
   }
 
   // Make sure password and confirm password are the same
   if (req.body.password !== req.body.confirmPassword) {
-    return res.render("auth/register.ejs", {
-      error: "Password and confirm password must match.",
-      pageTitle: "Register",
-    });
+    req.flash("error", "Password and confirm password must match.");
+    return res.redirect("/auth/register");
   }
 
   // Hash the password
@@ -60,10 +56,8 @@ const loginUser = async (req, res) => {
   const userInDatabase = await User.findOne({ username: req.body.username });
 
   if (!userInDatabase) {
-    return res.render("auth/login.ejs", {
-      error: "Login failed. Please try again.",
-      pageTitle: "Login",
-    });
+    req.flash("error", "Login failed. Please try again.");
+    return res.redirect("/auth/login");
   }
 
   // Compare userInDatabase's hashed password against Form Data password hashed by bcrypt
@@ -73,10 +67,8 @@ const loginUser = async (req, res) => {
   );
 
   if (!validPassword) {
-    return res.render("auth/login.ejs", {
-      error: "Login failed. Please try again.",
-      pageTitle: "Login",
-    });
+    req.flash("error", "Login failed. Please try again.");
+    return res.redirect("/auth/login");
   }
 
   // Manage Session

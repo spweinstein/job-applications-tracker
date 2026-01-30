@@ -21,12 +21,10 @@ const renderIndex = async (req, res) => {
     pageTitle: "Companies",
     companies,
     pagination: {
-      currentPage: page,
+      ...res.locals.pagination,
       totalPages,
       totalCount,
-      limit,
     },
-    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
@@ -79,11 +77,8 @@ const createCompany = async (req, res) => {
     name: req.body.name,
   });
   if (companyInDatabase) {
-    // res.send(`Company ${req.body.name} already in database!`);
-    res.render("companies/new.ejs", {
-      pageTitle: "New Company",
-      error: `Company ${req.body.name} already in database!`,
-    });
+    req.flash("error", `Company ${req.body.name} already in database!`);
+    res.redirect("/companies/new");
   } else {
     req.body.user = req.session.user._id;
     await Company.create(req.body);
@@ -93,34 +88,19 @@ const createCompany = async (req, res) => {
 
 // DELETE "/companies/:id"
 const deleteCompany = async (req, res) => {
-  const jobAppCount = await JobApp.countDocuments({
-    company: req.params.id,
-  });
-  if (jobAppCount > 0) {
-    const [companies, totalCount] = await Promise.all([
-      Company.find({ user: req.session.user._id })
-        .sort({ updatedAt: -1 })
-        .limit(10),
-      Company.countDocuments({ user: req.session.user._id }),
-    ]);
+  const jobAppCount = await JobApp.countDocuments({ company: req.params.id });
 
-    return res.render("./companies/index.ejs", {
-      pageTitle: "Companies",
-      companies,
-      pagination: {
-        currentPage: 1,
-        totalPages: Math.ceil(totalCount / 10),
-        totalCount,
-        limit: 10,
-      },
-      sort: { sortBy: "updatedAt", sortOrder: "desc" },
-      error: `Cannot delete company. It has ${jobAppCount} linked job application(s). Please delete those first.`,
-    });
+  if (jobAppCount > 0) {
+    req.flash(
+      "error",
+      `Cannot delete company. It has ${jobAppCount} linked job application(s). Please delete those first.`,
+    );
+    return res.redirect("/companies");
   }
 
   await Company.findOneAndDelete({
-    user: req.session.user._id,
     _id: req.params.id,
+    user: req.session.user._id,
   });
   res.redirect("/companies");
 };
@@ -136,9 +116,10 @@ const updateCompany = async (req, res) => {
 
   if (duplicateCompany) {
     // Could use flash messages, or for now, send error
+    req.flash("error", `Company ${req.body.name} already in database!`);
+
     return res.render("companies/edit.ejs", {
       pageTitle: "Edit Company",
-      error: `Company ${req.body.name} already in database!`,
       company: req.body,
     });
   } else {

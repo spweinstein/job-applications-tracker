@@ -3,13 +3,13 @@
     
     <% 
       // If we're past the first page, show the previous link
-      if (pagination.currentPage > 1) { 
+      if (pagination.page > 1) { 
           let urlParams = {
               // Keep sortBy and sortOrder the same
               sortBy: sort.sortBy,
               sortOrder: sort.sortOrder,
               // Decrement the page
-              page: pagination.currentPage-1,
+              page: pagination.page-1,
               // Keep limit the same
               limit: pagination.limit
           };
@@ -20,18 +20,18 @@
     <% } %>
     
     <span class="pagination-info">
-      Page <%= pagination.currentPage %> of <%= pagination.totalPages %> 
+      Page <%= pagination.page %> of <%= pagination.totalPages %> 
       (<%= pagination.totalCount %> records)
     </span>
     
-    <% if (pagination.currentPage < pagination.totalPages) { %>
+    <% if (pagination.page < pagination.totalPages) { %>
       <% 
           let urlParams = {
               // Keep sortBy and sortOrder the same
               sortBy: sort.sortBy,
               sortOrder: sort.sortOrder,
               // Increment the page
-              page: pagination.currentPage+1,
+              page: pagination.page+1,
               // Keep limit the same
               limit: pagination.limit
           };

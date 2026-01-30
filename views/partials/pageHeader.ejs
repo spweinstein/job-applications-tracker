@@ -1,4 +1,6 @@
 <header>
   <h1 class="page-header"><%= pageTitle %></h1>
-  <div id="error-message"><%= locals.error ? locals.error : ""%></div>
+  <% if (flash?.error?.length) { %>
+    <div id="error-message"><%= flash.error[0] %></div>
+  <% } %>
 </header>

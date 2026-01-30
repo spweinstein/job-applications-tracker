@@ -21,12 +21,10 @@ const renderIndex = async (req, res) => {
     pageTitle: "Cover Letters",
     coverLetters,
     pagination: {
-      currentPage: page,
+      ...res.locals.pagination,
       totalPages,
       totalCount,
-      limit,
     },
-    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
@@ -80,10 +78,8 @@ const createCoverLetter = async (req, res) => {
   });
   if (coverLetterInDatabase) {
     // res.send(`CoverLetter ${req.body.name} already in database!`);
-    res.render("coverLetters/new.ejs", {
-      pageTitle: "New Cover Letter",
-      error: `CoverLetter ${req.body.name} already in database!`,
-    });
+    req.flash("error", `CoverLetter ${req.body.name} already in database!`);
+    res.redirect("coverLetters/new");
   } else {
     req.body.user = req.session.user._id;
     await CoverLetter.create(req.body);
@@ -96,31 +92,18 @@ const deleteCoverLetter = async (req, res) => {
   const jobAppCount = await JobApp.countDocuments({
     coverLetter: req.params.id,
   });
-  if (jobAppCount > 0) {
-    const [coverLetters, totalCount] = await Promise.all([
-      CoverLetter.find({ user: req.session.user._id })
-        .sort({ updatedAt: -1 })
-        .limit(10),
-      CoverLetter.countDocuments({ user: req.session.user._id }),
-    ]);
 
-    return res.render("./coverLetters/index.ejs", {
-      pageTitle: "Cover Letters",
-      coverLetters,
-      pagination: {
-        currentPage: 1,
-        totalPages: Math.ceil(totalCount / 10),
-        totalCount,
-        limit: 10,
-      },
-      sort: { sortBy: "updatedAt", sortOrder: "desc" },
-      error: `Cannot delete coverLetter. It has ${jobAppCount} linked job application(s). Please delete those first.`,
-    });
+  if (jobAppCount > 0) {
+    req.flash(
+      "error",
+      `Cannot delete cover letter. It has ${jobAppCount} linked job application(s). Please delete those first.`,
+    );
+    return res.redirect("/coverLetters");
   }
 
   await CoverLetter.findOneAndDelete({
-    user: req.session.user._id,
     _id: req.params.id,
+    user: req.session.user._id,
   });
   res.redirect("/coverLetters");
 };
@@ -136,9 +119,9 @@ const updateCoverLetter = async (req, res) => {
 
   if (duplicateCoverLetter) {
     // Could use flash messages, or for now, send error
+    req.flash("error", `CoverLetter ${req.body.name} already in database!`);
     return res.render("coverLetters/edit.ejs", {
       pageTitle: "Edit CoverLetter",
-      error: `CoverLetter ${req.body.name} already in database!`,
       coverLetter: req.body,
     });
   } else {

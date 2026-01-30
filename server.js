@@ -8,6 +8,8 @@ const db = require("./db/connection.js");
 const routes = require("./routes/index.js");
 const dotenv = require("dotenv");
 const MongoStore = require("connect-mongo").default;
+const flash = require("connect-flash");
+
 dotenv.config();
 
 const app = express();
@@ -28,6 +30,11 @@ app.use(
     }),
   }),
 );
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.flash = req.flash();
+  next();
+});
 app.use(authMiddlewares.passUserToView);
 
 // Routes

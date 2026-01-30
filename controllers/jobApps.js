@@ -23,12 +23,10 @@ const renderIndex = async (req, res) => {
     pageTitle: "Job Applications",
     jobApps,
     pagination: {
-      currentPage: page,
+      ...res.locals.pagination,
       totalPages,
       totalCount,
-      limit,
     },
-    sort: res.locals.sort,
   });
 };
 

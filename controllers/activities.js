@@ -25,12 +25,10 @@ const renderIndex = async (req, res) => {
     pageTitle: "Activities",
     activities,
     pagination: {
-      currentPage: page,
+      ...res.locals.pagination,
       totalPages,
       totalCount,
-      limit,
     },
-    sort: { sortBy, sortOrder: req.query.sortOrder || "desc" },
   });
 };
 
