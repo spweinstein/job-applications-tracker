@@ -8,7 +8,7 @@ const paginationMiddleware = (
     const limit = Math.max(1, parseInt(req.query.limit) || defaultLimit);
     const sortBy = req.query.sortBy || defaultSort;
     const sortOrderParam = req.query.sortOrder || defaultSortOrder;
-    const sortOrder = sortOrderParam === "asc" ? 1 : -1;
+    const sortOrder = sortOrderParam === "asc" ? "asc" : "desc";
 
     res.locals.pagination = {
       page,
