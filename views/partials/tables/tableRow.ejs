@@ -15,12 +15,12 @@
 }%>
 
 <div class="table-row">
-    <% for(const colPath of columnPaths){ %>
+    <% for(let i = 0; i < columnPaths.length; i++){ %>
         <%
-            let val = getPath(colPath, row);
+            let val = getPath(columnPaths[i], row);
             val = (val instanceof Date && !isNaN(val.getTime())) ? val.toLocaleDateString() : val;
         %>
-        <div>
+        <div data-label="<%= columnNames[i] %>">
             <%= val %>
         </div>
     <% } %>
